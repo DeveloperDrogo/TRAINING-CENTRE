@@ -1,13 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:staff_client_side/features/auth/login/ui/login.dart';
+import 'package:staff_client_side/features/auth/login/screens/login.dart';
+import 'package:staff_client_side/firebase_options.dart';
 import 'package:staff_client_side/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   final savedThemeMode = await AdaptiveTheme.getThemeMode();
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');

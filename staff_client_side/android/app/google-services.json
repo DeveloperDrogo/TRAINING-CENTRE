@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "590052843427",
+    "project_id": "manomay-19162",
+    "storage_bucket": "manomay-19162.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590052843427:android:d857877017377bada34416",
+        "android_client_info": {
+          "package_name": "com.example.staff_client_side"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLD1RSbXn3iG0HhlITDwcY3PsgAQlnnS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

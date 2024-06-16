@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     if (success) {
       final completer = Completer<void>();
-
+ 
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: event.completeNumber,
         timeout: const Duration(seconds: 30),

@@ -6,11 +6,13 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:staff_client_side/colors/colors.dart';
 import 'package:staff_client_side/features/auth/login/bloc/login_bloc.dart';
 import 'package:staff_client_side/features/auth/otp/screens/otp.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, required this.number});
+  final String number;
 
   static String ?completeNumber;
 
@@ -21,7 +23,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
+    mobileNumber.text=widget.number;
     loginBloc.add(LoginInitialPage());
+    onlyNumber=widget.number!=''?widget.number:'';
+    completeNumber=LoginPage.completeNumber;
     super.initState();
   }
 
@@ -43,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const OtpPage(),
+                builder: (context) =>  OtpPage(mobileNumber:onlyNumber!,),
               ));
         } else if (state is NumberIsNotExistState) {
           final snackBar = SnackBar(
@@ -104,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Opacity(
                             opacity: 1,
                             child: Image.asset(
-                              'assets/images/bglast.png',
+                              'assets/images/bg_check.png',
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -200,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                                   onlyNumber = phone.number;
                                   completeNumber = phone.completeNumber;
                                   LoginPage.completeNumber=phone.completeNumber;
-                                  print(onlyNumber);
+                                  
                                 });
                               },
                             ),
@@ -261,7 +266,7 @@ class _LoginPageState extends State<LoginPage> {
                                           completeNumber: completeNumber!));
                                     },
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color.fromARGB(255, 59, 97, 168),
+                                        backgroundColor: MyColors.primaryColor,
                                         // backgroundColor: const Color.fromARGB(255, 69, 160, 72),
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(

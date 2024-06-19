@@ -569,7 +569,7 @@ backgroundColor: AdaptiveTheme.of(context).mode.isDark
                                                     style: GoogleFonts.lato(
                                                       textStyle:
                                                           const TextStyle(
-                                                              fontSize: 11,
+                                                              fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600),

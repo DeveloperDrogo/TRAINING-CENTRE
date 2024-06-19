@@ -54,6 +54,10 @@ dependencies:
   firebase_messaging: ^14.7.10
   overlay_support: ^2.1.0
   remixicon: ^1.2.0
+  meta: ^1.9.1
+  awesome_dialog: ^3.2.0
+  loading_animation_widget: ^1.2.1
+  flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:
   flutter_test:

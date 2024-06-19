@@ -7,9 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:staff_client_side/constant/sharedprefs.dart';
-import 'package:staff_client_side/features/addTutionCenter/screens/tutioncenter.dart';
+
 import 'package:staff_client_side/features/auth/login/screens/login.dart';
 import 'package:staff_client_side/features/home/screens/bottomNavigation.dart';
+import 'package:staff_client_side/features/tutionCenter/screens/listtutioncenterInfo.dart';
+import 'package:staff_client_side/features/tutionCenter/screens/tutioncenter.dart';
 import 'package:staff_client_side/firebase_options.dart';
 import 'package:staff_client_side/routes/routes.dart';
 
@@ -81,7 +83,8 @@ class MyApp extends StatelessWidget {
                   number: '',
                 ),
             MyRoutes.bottom: (context) => const BottomNavigationPage(),
-            MyRoutes.addCenter:(context) =>  AddTutionCenterPage()
+            MyRoutes.addCenter:(context) => const AddTutionCenterPage(),
+            MyRoutes.centerInfo:(context) => const TrainingCenterInfo()
           },
         ),
       ),

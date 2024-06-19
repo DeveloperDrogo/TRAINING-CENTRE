@@ -16,9 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> homeInitialEvent(
       HomeInitialEvent event, Emitter<HomeState> emit) async {
       emit(HomeLoadState());
-      print('yes coming');
     final List<DashboardMenu> dashboard = await HomeRepo.dashboardMenu();
-    print('dashboard is $dashboard');
     emit(DashboardMenuListState(dashboardMenuList: dashboard));
   }
 }

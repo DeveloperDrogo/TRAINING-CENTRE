@@ -11,7 +11,7 @@ const RoleSchema = mongoose.Schema({
     },
 
     is_deleted:{
-        type:String
+        type:Number
     }
 
 });

@@ -16,12 +16,13 @@ app.use(trainingRouter);
 
 
 app.use('/assets/dashboardMenu', express.static(path.join(__dirname, '/assets/dashboardMenu')));
+app.use('/uploads/user_images', express.static(path.join(__dirname, 'uploads/user_images')));
 
 const DB =
   "mongodb+srv://ankith:EHvMIfU0rIrVZ6uj@cluster0.jy0s1qs.mongodb.net/db_manomay?retryWrites=true&w=majority";
 
 PORT = 3000;
-IP = "192.168.1.6";
+IP = "192.168.1.7";
 
 app.listen(PORT, IP, () => {
   console.log(`Server connected for ${IP}:${PORT}`);

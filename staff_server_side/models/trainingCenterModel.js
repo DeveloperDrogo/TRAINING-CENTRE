@@ -34,6 +34,10 @@ const trainingCenterSchema = mongoose.Schema({
     type:String,
     default: () => formatDate(new Date()),
   },
+
+  updated_date_time:{
+    type:String
+  },
   
   status:{
     type:String

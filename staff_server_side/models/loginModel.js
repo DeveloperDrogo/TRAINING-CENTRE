@@ -17,6 +17,11 @@ const LoginSchema = mongoose.Schema({
   name: {
     type: String,
   },
+
+  dob:{
+    type:String
+  },
+
   email: {
     type: String,
   },
@@ -31,6 +36,30 @@ const LoginSchema = mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId
   },
 
+  gender:{
+    type:String
+  },
+
+  bloodGroup:{
+    type:String
+  },
+
+  qualification:{
+    type:String
+  },
+
+  work_experience:{
+    type:String
+  },
+
+  government_id:{
+    type:String
+  },
+
+  image_path:{
+    type:String
+  },
+
   address:{
     type:String
   },
@@ -41,6 +70,10 @@ const LoginSchema = mongoose.Schema({
   created_date_time:{
     type:String,
     default: () => formatDate(new Date()),
+  },
+
+  updated_date_time:{
+    type:String
   },
 
   created_by:{

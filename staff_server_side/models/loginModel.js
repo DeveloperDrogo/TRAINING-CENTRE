@@ -26,8 +26,9 @@ const LoginSchema = mongoose.Schema({
     type: String,
   },
   role_id: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
   },
+  
   mblnumber: {
     type: String,
   },

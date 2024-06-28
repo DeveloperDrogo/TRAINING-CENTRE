@@ -38,11 +38,13 @@ trainingRouter.post("/api/addTrainingCenter", async (req, res) => {
     });
 
     console.log(getMangerRole);
+    console.log(getMangerRole[0]._id);
+
 
     let addManagerInfo = new LoginModel({
       name: manager_name,
       email: manager_email,
-      role_id: getMangerRole._id,
+      role_id:getMangerRole[0]._id,
       mblnumber: manager_contact,
       training_center_id: addTrainingcenter._id,
       address: manager_address,
@@ -70,9 +72,11 @@ trainingRouter.post("/api/listTrainingCenters", async (req, res) => {
 
     console.log(getMangerRole);
 
+    console.log(getMangerRole._id);
+
     // Fetch managers with the manager role
     const fetchMangerInfo = await LoginModel.find({
-      role_id: getMangerRole._id,
+      role_id: getMangerRole[0]._id,
       is_deleted: 0,
     });
 

@@ -14,6 +14,7 @@ class TutionCenterBloc extends Bloc<TutionCenterEvent, TutionCenterState> {
     on<ErrorWithoutAddingMangerInfoEvent>(errorWithoutAddingMangerInfoEvent);
     on<OnSubmitTrainingCenterEvent>(onSubmitTrainingCenterEvent);
     on<ListAllTrainingCentersEvent>(listAllTrainingCentersEvent);
+    on<OnUpdateButtonOnPressed>(onUpdateButtonOnPressed);
   }
 
   FutureOr<void> backToBottomPage(
@@ -45,11 +46,34 @@ class TutionCenterBloc extends Bloc<TutionCenterEvent, TutionCenterState> {
     }
   }
 
-  FutureOr<void> listAllTrainingCentersEvent(
-      ListAllTrainingCentersEvent event, Emitter<TutionCenterState> emit) async{
-        emit(ListTrainingCenterLoadState());
-        List<TrainingCenterListModel> trainingcenters = await TutionCenterRepo.listTrainingCenters();
-        emit(ListAllTrainingCentersState(trainingCenters: trainingcenters));
+  FutureOr<void> listAllTrainingCentersEvent(ListAllTrainingCentersEvent event,
+      Emitter<TutionCenterState> emit) async {
+    emit(ListTrainingCenterLoadState());
+    List<TrainingCenterListModel> trainingcenters =
+        await TutionCenterRepo.listTrainingCenters();
+    emit(ListAllTrainingCentersState(trainingCenters: trainingcenters));
+  }
 
-      }
+  FutureOr<void> onUpdateButtonOnPressed(
+      OnUpdateButtonOnPressed event, Emitter<TutionCenterState> emit) async {
+    emit(TrainingCenterLoadingState());
+    final bool success = await TutionCenterRepo.updateTrainingCenterInfo(
+        status: event.status,
+        isActive: event.isActiveTrainingCenter,
+        trainingCentername: event.trainingCenterName,
+        trainingCenterAddress: event.trainingCenterAddress,
+        trainingCenterSubscription: event.trainingCenterSubscriptionAmount,
+        managerName: event.managerName,
+        managerContact: event.managerContact,
+        managerEmail: event.managerEmail,
+        trainingcenterId: event.trainingCenterId,
+        mangerUserId: event.managerUserId,
+        managerAddress: event.managerAddress,
+        isSubscribed: event.issubscribed);
+    if (success) {
+      emit(TrainingCenterSuccessUpdateState());
+    } else {
+      emit(TrainingCenterFailedUpdateState());
+    }
+  }
 }

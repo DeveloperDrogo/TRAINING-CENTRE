@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.number});
   final String number;
 
-  static String ?completeNumber;
+  static String? completeNumber;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -23,10 +23,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
-    mobileNumber.text=widget.number;
+    mobileNumber.text = widget.number;
     loginBloc.add(LoginInitialPage());
-    onlyNumber=widget.number!=''?widget.number:'';
-    completeNumber=LoginPage.completeNumber;
+    onlyNumber = widget.number != '' ? widget.number : '';
+    completeNumber = LoginPage.completeNumber;
     super.initState();
   }
 
@@ -48,7 +48,9 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>  OtpPage(mobileNumber:onlyNumber!,),
+                builder: (context) => OtpPage(
+                  mobileNumber: onlyNumber!,
+                ),
               ));
         } else if (state is NumberIsNotExistState) {
           final snackBar = SnackBar(
@@ -90,11 +92,11 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case LoginPageLoadState:
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           case LoginInitialState:
             return Scaffold(
               backgroundColor: Colors.white,
@@ -204,8 +206,8 @@ class _LoginPageState extends State<LoginPage> {
                                 setState(() {
                                   onlyNumber = phone.number;
                                   completeNumber = phone.completeNumber;
-                                  LoginPage.completeNumber=phone.completeNumber;
-                                  
+                                  LoginPage.completeNumber =
+                                      phone.completeNumber;
                                 });
                               },
                             ),
@@ -304,11 +306,16 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 100,
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircleAvatar(
+                              backgroundColor: Colors.white,
                               radius: 56,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Image.asset('assets/logo/logo.png'),
+                              )
                             ),
                           ],
                         ),
@@ -316,7 +323,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 30,
                         ),
                         Text(
-                          'MANOMAY TRAINING \nCENTRE',
+                          'MANOMAY COACHING \nCENTRE',
                           style: GoogleFonts.fingerPaint(
                               height: 1.7,
                               color: Colors.white,

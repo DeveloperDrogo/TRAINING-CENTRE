@@ -6,10 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:staff_client_side/colors/colors.dart';
 import 'package:staff_client_side/constant/sharedprefs.dart';
 
 import 'package:staff_client_side/features/auth/login/screens/login.dart';
+import 'package:staff_client_side/features/coachingManager/screens/addStaff.dart';
 import 'package:staff_client_side/features/home/screens/bottomNavigation.dart';
+import 'package:staff_client_side/features/navigation/screens/navigation.dart';
+import 'package:staff_client_side/features/notification/screens/notification.dart';
+import 'package:staff_client_side/features/profile/screens/profile.dart';
 import 'package:staff_client_side/features/tutionCenter/screens/listtutioncenterInfo.dart';
 import 'package:staff_client_side/features/tutionCenter/screens/tutioncenter.dart';
 import 'package:staff_client_side/firebase_options.dart';
@@ -61,12 +66,12 @@ class MyApp extends StatelessWidget {
         light: ThemeData(
           useMaterial3: true,
           brightness: Brightness.light,
-          colorSchemeSeed: const Color.fromARGB(255, 91, 133, 196),
+          colorSchemeSeed: MyColors.primaryColor
         ),
         dark: ThemeData(
           useMaterial3: true,
           brightness: Brightness.dark,
-          colorSchemeSeed: const Color.fromARGB(255, 91, 133, 196),
+          colorSchemeSeed:  MyColors.primaryColor
         ),
         initial: savedThemeMode ?? AdaptiveThemeMode.light,
         builder: (theme, darkTheme) => MaterialApp(
@@ -84,7 +89,11 @@ class MyApp extends StatelessWidget {
                 ),
             MyRoutes.bottom: (context) => const BottomNavigationPage(),
             MyRoutes.addCenter:(context) => const AddTutionCenterPage(),
-            MyRoutes.centerInfo:(context) => const TrainingCenterInfo()
+            MyRoutes.centerInfo:(context) => const TrainingCenterInfo(),
+            MyRoutes.navigation:(context) => const NavigationPage(),
+            MyRoutes.notification:(context) => const NotificationPage(),
+            MyRoutes.profile:(context) => const ProfilePage(),
+            MyRoutes.addStaff:(context) => const AddStaffPage()
           },
         ),
       ),

@@ -15,3 +15,6 @@ final class DashboardMenuListState extends HomeState{
   DashboardMenuListState({required this.dashboardMenuList});
 }
 
+final class NavigationPageState extends HomeActionState{}
+
+final class NavigationToNotificationState extends HomeActionState{}

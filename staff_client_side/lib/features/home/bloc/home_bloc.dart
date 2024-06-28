@@ -11,12 +11,24 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     on<HomeInitialEvent>(homeInitialEvent);
+    on<NavigateToNavigationPage>(navigateToNavigationPage);
+    on<NavigateToNotificationPage>(navigateToNotificationPage);
   }
 
   FutureOr<void> homeInitialEvent(
       HomeInitialEvent event, Emitter<HomeState> emit) async {
-      emit(HomeLoadState());
+    emit(HomeLoadState());
     final List<DashboardMenu> dashboard = await HomeRepo.dashboardMenu();
     emit(DashboardMenuListState(dashboardMenuList: dashboard));
   }
+
+  FutureOr<void> navigateToNavigationPage(
+      NavigateToNavigationPage event, Emitter<HomeState> emit) {
+    emit(NavigationPageState());
+  }
+
+  FutureOr<void> navigateToNotificationPage(
+      NavigateToNotificationPage event, Emitter<HomeState> emit) {
+        emit(NavigationToNotificationState());
+      }
 }

@@ -36,6 +36,20 @@ class LoginRepo {
         await prefs.setString('dob', response.data['dob'] ?? '');
         await prefs.setString('address', response.data['address'] ?? '');
         await prefs.setString('image_path', response.data['image_path'] ?? '');
+        await prefs.setString('gender', response.data['gender'] ?? '');
+        await prefs.setString('bloodGroup', response.data['bloodGroup'] ?? '');
+        await prefs.setString(
+            'qualification', response.data['qualification'] ?? '');
+        await prefs.setString(
+            'work_experience', response.data['work_experience'] ?? '');
+        await prefs.setString(
+            'governemnt_id', response.data['governemnt_id'] ?? '');
+        await prefs.setString('training_center_name',
+            response.data['training_center_name'] ?? '');
+        await prefs.setString('training_center_address',
+            response.data['training_center_address'] ?? '');
+        await prefs.setString('training_center_logo',
+            response.data['training_center_logo'] ?? '');
         return true;
       } else {
         return false;

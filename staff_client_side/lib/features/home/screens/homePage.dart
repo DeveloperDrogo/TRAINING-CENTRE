@@ -8,6 +8,8 @@ import 'package:staff_client_side/constant/sharedprefs.dart';
 import 'package:staff_client_side/features/home/bloc/home_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:staff_client_side/features/home/model/pushnotificationModel.dart';
+import 'package:staff_client_side/features/navigation/screens/navigation.dart';
+import 'package:staff_client_side/features/notification/screens/notification.dart';
 import 'package:staff_client_side/main.dart';
 import 'package:staff_client_side/server/server.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -178,15 +180,12 @@ class _HomePageState extends State<HomePage> {
     checkForInitialMessage();
 
     _totalNotificationCounter = notificationCount;
-   
-    
-   homeBloc.add(HomeInitialEvent());
+
+    homeBloc.add(HomeInitialEvent());
     // FirebaseUtils.updateFirebaseToken();
     // dashboardBloc.add(NewsFeedDashborad());
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -194,12 +193,26 @@ class _HomePageState extends State<HomePage> {
       bloc: homeBloc,
       listenWhen: (previous, current) => current is HomeActionState,
       buildWhen: (previous, current) => current is! HomeActionState,
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is NavigationPageState) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NavigationPage(),
+              ));
+        } else if (state is NavigationToNotificationState) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NotificationPage(),
+              ));
+        }
+      },
       builder: (context, state) {
         switch (state.runtimeType) {
           case HomeLoadState:
-          return Scaffold(
-backgroundColor: AdaptiveTheme.of(context).mode.isDark
+            return Scaffold(
+              backgroundColor: AdaptiveTheme.of(context).mode.isDark
                   ? const Color.fromARGB(255, 56, 56, 56)
                   : Colors.white,
               appBar: AppBar(
@@ -301,17 +314,15 @@ backgroundColor: AdaptiveTheme.of(context).mode.isDark
                           )
                         ],
                       ),
-                      onPressed: () async {}),
+                      onPressed: () async {
+                        homeBloc.add(NavigateToNotificationPage());
+                      }),
                   const SizedBox(
                     width: 3,
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => const NavigationPage(),
-                      //     ));
+                      homeBloc.add(NavigateToNavigationPage());
                     },
                     child: Icon(
                       Remix.menu_3_line,
@@ -329,11 +340,11 @@ backgroundColor: AdaptiveTheme.of(context).mode.isDark
               body: const Center(
                 child: CircularProgressIndicator(),
               ),
-          );
+            );
           case DashboardMenuListState:
             final successState = state as DashboardMenuListState;
             return Scaffold(
-                backgroundColor: AdaptiveTheme.of(context).mode.isDark
+              backgroundColor: AdaptiveTheme.of(context).mode.isDark
                   ? const Color.fromARGB(255, 56, 56, 56)
                   : Colors.white,
               appBar: AppBar(
@@ -435,17 +446,15 @@ backgroundColor: AdaptiveTheme.of(context).mode.isDark
                           )
                         ],
                       ),
-                      onPressed: () async {}),
+                      onPressed: () async {
+                        homeBloc.add(NavigateToNotificationPage());
+                      }),
                   const SizedBox(
                     width: 3,
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => const NavigationPage(),
-                      //     ));
+                      homeBloc.add(NavigateToNavigationPage());
                     },
                     child: Icon(
                       Remix.menu_3_line,
@@ -463,11 +472,127 @@ backgroundColor: AdaptiveTheme.of(context).mode.isDark
               body: SingleChildScrollView(
                 child: Column(
                   children: [
+                    if(SharedPrefs().role!='ADMIN')
+                    Padding(
+                        padding: const EdgeInsets.only(left: 0, right: 0),
+                        child: Container(
+                          decoration: const BoxDecoration(),
+                          //height: 200,
+                          width: MediaQuery.of(context).size.width,
+
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 15, left: 10, bottom: 0, right: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 0.5, color: Colors.grey),
+                                borderRadius: BorderRadius.circular(10),
+                                color: AdaptiveTheme.of(context).mode.isDark
+                                    ? const Color.fromARGB(255, 78, 78, 78)
+                                    : const Color.fromARGB(255, 255, 255, 255),
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color:
+                                //         const Color.fromARGB(255, 201, 201, 201)
+                                //             .withOpacity(0.5),
+                                //     spreadRadius:
+                                //         AdaptiveTheme.of(context).mode.isDark
+                                //             ? 0
+                                //             : 0.5,
+                                //     blurRadius:
+                                //         AdaptiveTheme.of(context).mode.isDark
+                                //             ? 0
+                                //             : 1,
+                                //     offset: AdaptiveTheme.of(context).mode.isDark
+                                //         ? const Offset(0, 0)
+                                //         : const Offset(0, 1),
+                                //   ),
+                                // ]
+                              ),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 33,
+                                    backgroundColor: AdaptiveTheme.of(context)
+                                            .mode
+                                            .isDark
+                                        ? const Color.fromARGB(255, 78, 78, 78)
+                                        : const Color.fromARGB(
+                                            255, 255, 255, 255),
+                                    child: CircleAvatar(
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 248, 250, 253),
+                                      radius: 23,
+                                      child: SharedPrefs().trainingCenterLogo !=
+                                              ''
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                child: SizedBox(
+                                                  width: 85,
+                                                  height: 60,
+                                                  child: SizedBox(
+                                                    height: 0,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: SharedPrefs()
+                                                          .trainingCenterLogo,
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          const CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                      ),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          const Icon(
+                                                              Icons.error),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : const Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 0),
+                                              child: Icon(
+                                                Icons.apartment_rounded,
+                                                size: 30,  
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                    SharedPrefs().trainingCenterName.toUpperCase(),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.lato(textStyle: 
+                                    TextStyle(
+                                        color: AdaptiveTheme.of(context)
+                                                .mode
+                                                .isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                        fontFamily: "Lato",
+                                        fontWeight: FontWeight.bold),)
+                                  ))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     successState.dashboardMenuList.isEmpty
                         ? Container()
                         : Padding(
                             padding: const EdgeInsets.only(
-                                top: 20, bottom: 15, left: 10, right: 10),
+                                top: 10, bottom: 15, left: 10, right: 10),
                             child: Container(
                               decoration: BoxDecoration(
                                 border:
@@ -593,7 +718,7 @@ backgroundColor: AdaptiveTheme.of(context).mode.isDark
               ),
             );
           default:
-            return SizedBox();
+            return const SizedBox();
         }
       },
     );

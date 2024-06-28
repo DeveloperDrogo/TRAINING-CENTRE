@@ -24,3 +24,7 @@ final class ListAllTrainingCentersState extends TutionCenterState{
 }
 
 final class ListTrainingCenterLoadState extends TutionCenterState{}
+
+final class TrainingCenterSuccessUpdateState extends TutionActionCenterState{}
+
+final class TrainingCenterFailedUpdateState extends TutionActionCenterState{}

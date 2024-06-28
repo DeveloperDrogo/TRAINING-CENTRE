@@ -11,7 +11,7 @@ class HomeRepo {
     try {
       final response = await dio.post(
         '${Server.api}dashboardMenu',
-        data: {'role': SharedPrefs().role},
+        data: {'user_id': SharedPrefs().id},
       );
 
       List<DashboardMenu> dashboardList = [];

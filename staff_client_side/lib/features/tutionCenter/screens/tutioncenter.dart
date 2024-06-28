@@ -670,7 +670,7 @@ class _AddTutionCenterPageState extends State<AddTutionCenterPage> {
                               child: AdaptiveTheme.of(context).mode.isDark
                                   ? Image.asset(
                                       'assets/images/center_add_dark.png',
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fitWidth,
                                     )
                                   : Image.asset(
                                       'assets/images/center_add_light.png',

@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:lottie/lottie.dart';
+import 'package:staff_client_side/colors/colors.dart';
 import 'package:staff_client_side/features/tutionCenter/bloc/tution_center_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:staff_client_side/features/tutionCenter/screens/editTution.dart';
 import 'package:staff_client_side/routes/routes.dart';
 
 class TrainingCenterInfo extends StatefulWidget {
@@ -23,6 +25,13 @@ class _TrainingCenterInfoState extends State<TrainingCenterInfo> {
   }
 
   TextEditingController _searchController = TextEditingController();
+
+  bool allfilterStatus = true;
+  bool pendingfilterstatus = false;
+  bool subscribedfilterstatus = false;
+  bool deactivatedfilterstatus = false;
+
+  String? filterStatus;
 
   TutionCenterBloc tutionCenterBloc = TutionCenterBloc();
 
@@ -201,6 +210,240 @@ class _TrainingCenterInfoState extends State<TrainingCenterInfo> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            SizedBox(
+                              height: 29,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        allfilterStatus = true;
+                                        pendingfilterstatus = false;
+                                        subscribedfilterstatus = false;
+                                        deactivatedfilterstatus = false;
+                                        filterStatus = null;
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5),
+                                          color: allfilterStatus
+                                              ? MyColors.primaryColor
+                                              : AdaptiveTheme.of(context)
+                                                      .mode
+                                                      .isDark
+                                                  ? const Color.fromARGB(
+                                                      255, 56, 56, 56)
+                                                  : Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Text('ALL',
+                                            style: GoogleFonts.lato(
+                                              textStyle: TextStyle(
+                                                  color: allfilterStatus
+                                                      ? Colors.white
+                                                      : AdaptiveTheme.of(
+                                                                  context)
+                                                              .mode
+                                                              .isDark
+                                                          ? Colors.white
+                                                          : const Color
+                                                              .fromARGB(255,
+                                                              111, 111, 111),
+                                                  fontSize: 12.5,
+                                                  fontFamily: "Lato",
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        allfilterStatus = false;
+                                        pendingfilterstatus = true;
+                                        subscribedfilterstatus = false;
+                                        deactivatedfilterstatus = false;
+                                        filterStatus = 'PENDING';
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5),
+                                          color: pendingfilterstatus
+                                              ? MyColors.primaryColor
+                                              : AdaptiveTheme.of(context)
+                                                      .mode
+                                                      .isDark
+                                                  ? const Color.fromARGB(
+                                                      255, 56, 56, 56)
+                                                  : Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Text('PENDING',
+                                            style: GoogleFonts.lato(
+                                              textStyle: TextStyle(
+                                                  color: pendingfilterstatus
+                                                      ? Colors.white
+                                                      : AdaptiveTheme.of(
+                                                                  context)
+                                                              .mode
+                                                              .isDark
+                                                          ? Colors.white
+                                                          : const Color
+                                                              .fromARGB(255,
+                                                              111, 111, 111),
+                                                  fontSize: 12.5,
+                                                  fontFamily: "Lato",
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        allfilterStatus = false;
+                                        pendingfilterstatus = false;
+                                        subscribedfilterstatus = true;
+                                        deactivatedfilterstatus = false;
+                                        filterStatus = 'SUBSCRIBED';
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5),
+                                          color: subscribedfilterstatus
+                                              ? MyColors.primaryColor
+                                              : AdaptiveTheme.of(context)
+                                                      .mode
+                                                      .isDark
+                                                  ? const Color.fromARGB(
+                                                      255, 56, 56, 56)
+                                                  : Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Text('SUBSCRIBED',
+                                            style: GoogleFonts.lato(
+                                              textStyle: TextStyle(
+                                                  color: subscribedfilterstatus
+                                                      ? Colors.white
+                                                      : AdaptiveTheme.of(
+                                                                  context)
+                                                              .mode
+                                                              .isDark
+                                                          ? Colors.white
+                                                          : const Color
+                                                              .fromARGB(255,
+                                                              111, 111, 111),
+                                                  fontSize: 12.5,
+                                                  fontFamily: "Lato",
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        allfilterStatus = false;
+                                        pendingfilterstatus = false;
+                                        subscribedfilterstatus = false;
+                                        deactivatedfilterstatus = true;
+                                        filterStatus = 'DEACTIVATED';
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5),
+                                          color: deactivatedfilterstatus
+                                              ? MyColors.primaryColor
+                                              : AdaptiveTheme.of(context)
+                                                      .mode
+                                                      .isDark
+                                                  ? const Color.fromARGB(
+                                                      255, 56, 56, 56)
+                                                  : Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Text('DEACTIVATED',
+                                            style: GoogleFonts.lato(
+                                              textStyle: TextStyle(
+                                                  color: deactivatedfilterstatus
+                                                      ? Colors.white
+                                                      : AdaptiveTheme.of(
+                                                                  context)
+                                                              .mode
+                                                              .isDark
+                                                          ? Colors.white
+                                                          : const Color
+                                                              .fromARGB(255,
+                                                              111, 111, 111),
+                                                  fontSize: 12.5,
+                                                  fontFamily: "Lato",
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       successState.trainingCenters
                               .where((training) =>
                                   _searchController.text.isEmpty ||
@@ -254,182 +497,319 @@ class _TrainingCenterInfoState extends State<TrainingCenterInfo> {
                                 ],
                               ),
                             )
-                          : Padding(
-                              padding: const EdgeInsets.only(top: 15),
-                              child: ListView.builder(
-                                itemCount: successState.trainingCenters.length,
-                                shrinkWrap: true,
-                                physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  if (_searchController.text.isNotEmpty &&
-                                      !successState.trainingCenters[index]
-                                          .trainingCenterName
-                                          .toLowerCase()
-                                          .contains(_searchController.text
-                                              .toLowerCase())) {
-                                    return const SizedBox
-                                        .shrink(); // Hide the item if not found
-                                  }
-                                  return AnimationConfiguration.staggeredList(
-                                    position: index,
-                                    duration: const Duration(milliseconds: 500),
-                                    child: SlideAnimation(
-                                      verticalOffset: 50.0,
-                                      child: FadeInAnimation(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 15,
-                                            right: 15,
-                                            bottom: 8,
-                                          ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 0.2,
-                                                  color: Colors.grey),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: AdaptiveTheme.of(context)
-                                                      .mode
-                                                      .isDark
-                                                  ? const Color.fromARGB(
-                                                      255, 78, 78, 78)
-                                                  : const Color.fromARGB(
-                                                      255, 255, 255, 255),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: const Color.fromARGB(
-                                                          255, 201, 201, 201)
-                                                      .withOpacity(0.5),
-                                                  spreadRadius:
-                                                      AdaptiveTheme.of(context)
-                                                              .mode
-                                                              .isDark
-                                                          ? 0
-                                                          : 0.5,
-                                                  blurRadius:
-                                                      AdaptiveTheme.of(context)
-                                                              .mode
-                                                              .isDark
-                                                          ? 0
-                                                          : 1,
-                                                  offset:
-                                                      AdaptiveTheme.of(context)
-                                                              .mode
-                                                              .isDark
-                                                          ? const Offset(0, 0)
-                                                          : const Offset(0, 1),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                ListTile(
-                                                  leading: const Icon(
-                                                      Icons.apartment_rounded),
-                                                  title: Text(
-                                                      successState
-                                                          .trainingCenters[
-                                                              index]
-                                                          .trainingCenterName,
-                                                      style: GoogleFonts.lato(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      )),
-                                                  subtitle: Text(
-                                                      successState
-                                                          .trainingCenters[
-                                                              index]
-                                                          .trainingCenterAddress,
-                                                      style: GoogleFonts.lato(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      )),
-                                                  minVerticalPadding: 0,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 56, bottom: 15),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        'Status : ',
-                                                        style:
-                                                            GoogleFonts.lato(),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 2,
-                                                      ),
-                                                      Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color: successState
-                                                                            .trainingCenters[
-                                                                                index]
-                                                                            .trainingCenterStatus ==
-                                                                        'PENDING'
-                                                                    ? const Color
-                                                                        .fromARGB(
-                                                                        255,
-                                                                        234,
-                                                                        143,
-                                                                        39)
-                                                                    : successState.trainingCenters[index].trainingCenterStatus ==
-                                                                            'APPROVED'
-                                                                        ? Colors
-                                                                            .green
-                                                                        : Colors
-                                                                            .red,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            50)),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 10,
-                                                                  right: 10,
-                                                                  top: 3,
-                                                                  bottom: 3),
-                                                          child: Text(
-                                                              successState
-                                                                  .trainingCenters[
+                          : successState.trainingCenters
+                                  .where((element) => filterStatus != null
+                                      ? element.trainingCenterStatus ==
+                                          filterStatus
+                                      : element.isEmptyaFilter == '')
+                                  .isEmpty
+                              ? Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 60),
+                                        child: Container(
+                                          height: 200,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: const BoxDecoration(
+                                              // image: DecorationImage(
+                                              //     image: AssetImage(
+                                              //         'assets/images/nonoti.jpg'))
+                                              ),
+                                          child: Lottie.asset(
+                                              'assets/lottie/empty.json'),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text("No Training Centers",
+                                          style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 24,
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                          "No training centers found at the moment.",
+                                          style: GoogleFonts.lato(
+                                            textStyle: const TextStyle(
+                                                fontSize: 16,
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.w500),
+                                          )),
+                                      const SizedBox(
+                                        height: 120,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: ListView.builder(
+                                    itemCount: successState.trainingCenters
+                                        .where((element) => filterStatus != null
+                                            ? element.trainingCenterStatus ==
+                                                filterStatus
+                                            : element.isEmptyaFilter == '')
+                                        .length,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                     
+
+                                      final trainingListInfo = successState
+                                          .trainingCenters
+                                          .where((element) => filterStatus !=
+                                                  null
+                                              ? element.trainingCenterStatus ==
+                                                  filterStatus
+                                              : element.isEmptyaFilter == '')
+                                          .toList();
+
+                                           if (_searchController.text.isNotEmpty &&
+                                          !trainingListInfo[index]
+                                              .trainingCenterName
+                                              .toLowerCase()
+                                              .contains(_searchController.text
+                                                  .toLowerCase())) {
+                                        return const SizedBox
+                                            .shrink(); // Hide the item if not found
+                                      }
+
+                                      return AnimationConfiguration
+                                          .staggeredList(
+                                        position: index,
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        child: SlideAnimation(
+                                          verticalOffset: 50.0,
+                                          child: FadeInAnimation(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 15,
+                                                right: 15,
+                                                bottom: 8,
+                                              ),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            EditTrainingCenterPage(
+                                                          status: trainingListInfo[
+                                                                  index]
+                                                              .trainingCenterStatus,
+                                                          isActivate:
+                                                              trainingListInfo[
                                                                       index]
-                                                                  .trainingCenterStatus,
-                                                              style: GoogleFonts
-                                                                  .lato(
-                                                                textStyle: const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        12.5,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                              )),
+                                                                  .isActivate,
+                                                          trainingCenterName:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .trainingCenterName,
+                                                          trainingCenterAddress:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .trainingCenterAddress,
+                                                          subscriptionAmount:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .trainingCenterSubscriptionAmount,
+                                                          managerName:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .managerName,
+                                                          managerMobile:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .managerNumber,
+                                                          managerEmail:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .managerEmail,
+                                                          managerAddress:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .managerAddress,
+                                                          trainingCenterId:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .trainingCenterId,
+                                                          managerUserId:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .managerUserId,
+                                                          isSubscribed:
+                                                              trainingListInfo[
+                                                                      index]
+                                                                  .isSubscribed,
                                                         ),
+                                                      ));
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 0.2,
+                                                        color: Colors.grey),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: AdaptiveTheme.of(
+                                                                context)
+                                                            .mode
+                                                            .isDark
+                                                        ? const Color.fromARGB(
+                                                            255, 78, 78, 78)
+                                                        : const Color.fromARGB(
+                                                            255, 255, 255, 255),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: const Color
+                                                                .fromARGB(255,
+                                                                201, 201, 201)
+                                                            .withOpacity(0.5),
+                                                        spreadRadius:
+                                                            AdaptiveTheme.of(
+                                                                        context)
+                                                                    .mode
+                                                                    .isDark
+                                                                ? 0
+                                                                : 0.5,
+                                                        blurRadius:
+                                                            AdaptiveTheme.of(
+                                                                        context)
+                                                                    .mode
+                                                                    .isDark
+                                                                ? 0
+                                                                : 1,
+                                                        offset: AdaptiveTheme
+                                                                    .of(context)
+                                                                .mode
+                                                                .isDark
+                                                            ? const Offset(0, 0)
+                                                            : const Offset(
+                                                                0, 1),
                                                       ),
                                                     ],
                                                   ),
-                                                )
-                                              ],
+                                                  child: Column(
+                                                    children: [
+                                                      ListTile(
+                                                        leading: const Icon(Icons
+                                                            .apartment_rounded),
+                                                        title: Text(
+                                                            trainingListInfo[
+                                                                    index]
+                                                                .trainingCenterName,
+                                                            style: GoogleFonts
+                                                                .lato(
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            )),
+                                                        subtitle: Text(
+                                                            trainingListInfo[
+                                                                    index]
+                                                                .trainingCenterAddress,
+                                                            style: GoogleFonts
+                                                                .lato(
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                            )),
+                                                       // minVerticalPadding: 0,
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                left: 56,
+                                                                bottom: 15),
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              'Status : ',
+                                                              style: GoogleFonts
+                                                                  .lato(),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 2,
+                                                            ),
+                                                            Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      color: trainingListInfo[index].trainingCenterStatus ==
+                                                                              'PENDING'
+                                                                          ? const Color
+                                                                              .fromARGB(
+                                                                              255,
+                                                                              234,
+                                                                              143,
+                                                                              39)
+                                                                          : trainingListInfo[index].trainingCenterStatus ==
+                                                                                  'SUBSCRIBED'
+                                                                              ? Colors
+                                                                                  .green
+                                                                              : Colors
+                                                                                  .red,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              50)),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left:
+                                                                            10,
+                                                                        right:
+                                                                            10,
+                                                                        top: 3,
+                                                                        bottom:
+                                                                            3),
+                                                                child: Text(
+                                                                    trainingListInfo[
+                                                                            index]
+                                                                        .trainingCenterStatus,
+                                                                    style:
+                                                                        GoogleFonts
+                                                                            .lato(
+                                                                      textStyle: const TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              12.5,
+                                                                          fontWeight:
+                                                                              FontWeight.w600),
+                                                                    )),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                                      );
+                                    },
+                                  ),
+                                ),
                     ],
                   ),
                 ),

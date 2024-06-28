@@ -355,19 +355,23 @@ class _OtpPageState extends State<OtpPage> {
                           const SizedBox(
                             height: 100,
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
-                                radius: 56,
-                              ),
+                                  backgroundColor: Colors.white,
+                                  radius: 56,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Image.asset('assets/logo/logo.png'),
+                                  )),
                             ],
                           ),
                           const SizedBox(
                             height: 30,
                           ),
                           Text(
-                            'MANOMAY TRAINING \nCENTRE',
+                            'MANOMAY COACHING \nCENTRE',
                             style: GoogleFonts.fingerPaint(
                                 height: 1.7,
                                 color: Colors.white,

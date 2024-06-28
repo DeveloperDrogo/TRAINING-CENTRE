@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:staff_client_side/colors/colors.dart';
 import 'package:staff_client_side/features/home/screens/homePage.dart';
+import 'package:staff_client_side/features/profile/screens/profile.dart';
+import 'package:staff_client_side/features/tutionCenter/screens/listtutioncenterInfo.dart';
+import 'package:staff_client_side/features/tutionCenter/screens/tutioncenter.dart';
 
 import 'package:upgrader/upgrader.dart';
 
@@ -23,9 +26,9 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
-    const HomePage(),
-    const HomePage(),
-    const HomePage(),
+    const AddTutionCenterPage(),
+    const TrainingCenterInfo(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -63,12 +66,12 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(IconlyBold.document),
-                label: 'Request Visit',
+                icon: Icon(IconlyBold.paper_plus),
+                label: 'Add Center',
               ),
               BottomNavigationBarItem(
-                icon: Icon(IconlyBold.paper_download),
-                label: 'Invites',
+                icon: Icon(IconlyBold.info_circle),
+                label: 'Center Info',
               ),
               BottomNavigationBarItem(
                 icon: Icon(IconlyBold.profile),

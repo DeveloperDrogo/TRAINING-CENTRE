@@ -194,6 +194,8 @@ authRouter.post("/api/userInfoUpdateWithoutDoc", async (req, res) => {
     // Save the updated user object
     await user.save();
 
+  console.log(user);
+
     res.status(200).json({ msg: "User updated successfully", ...user._doc });
   } catch (error) {
     console.log(error);

@@ -70,10 +70,6 @@ trainingRouter.post("/api/listTrainingCenters", async (req, res) => {
       is_deleted: 0,
     });
 
-    console.log(getMangerRole);
-
-    console.log(getMangerRole._id);
-
     // Fetch managers with the manager role
     const fetchMangerInfo = await LoginModel.find({
       role_id: getMangerRole[0]._id,

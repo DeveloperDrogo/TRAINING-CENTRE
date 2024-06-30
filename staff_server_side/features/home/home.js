@@ -36,7 +36,7 @@ homeRouter.post("/api/dashboardMenu", async (req, res) => {
         (item) => 
           item.title === "Profile" || 
           item.title === "Notification" || 
-          item.title === "Add Staff"
+          item.title === "Staffs Info"
       );
     }
 

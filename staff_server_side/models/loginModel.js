@@ -25,6 +25,7 @@ const LoginSchema = mongoose.Schema({
   email: {
     type: String,
   },
+  
   role_id: {
     type: mongoose.Schema.Types.ObjectId,
   },
@@ -66,6 +67,10 @@ const LoginSchema = mongoose.Schema({
   },
   is_deleted: {
     type: Number,
+  },
+
+  staff_id:{
+    type:String
   },
 
   created_date_time:{

@@ -7,4 +7,5 @@ class MyRoutes{
   static String notification = '/notification';
   static String profile = '/profile';
   static String addStaff = '/addStaff';
+  static String listAllStaffs = '/listAllStaffs';
 }

@@ -46,7 +46,6 @@ class ProfileRepo {
         await prefs.setString('name', response.data['name']);
         await prefs.setString('mobile', response.data['mblnumber']);
         await prefs.setString('email', response.data['email']);
-        await prefs.setString('role', response.data['role']);
         await prefs.setString('id', response.data['_id']);
         await prefs.setString('dob', response.data['dob'] ?? '');
         await prefs.setString('address', response.data['address'] ?? '');
@@ -59,7 +58,6 @@ class ProfileRepo {
             'work_experience', response.data['work_experience'] ?? '');
         await prefs.setString(
             'governemnt_id', response.data['government_id'] ?? '');
-
         return true;
       } else {
         return false;
@@ -118,7 +116,6 @@ class ProfileRepo {
         await prefs.setString('name', response.data['name']);
         await prefs.setString('mobile', response.data['mblnumber']);
         await prefs.setString('email', response.data['email']);
-        await prefs.setString('role', response.data['role']);
         await prefs.setString('id', response.data['_id']);
         await prefs.setString('dob', response.data['dob'] ?? '');
         await prefs.setString('address', response.data['address'] ?? '');

@@ -24,7 +24,7 @@ class _TrainingCenterInfoState extends State<TrainingCenterInfo> {
     tutionCenterBloc.add(ListAllTrainingCentersEvent());
   }
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   bool allfilterStatus = true;
   bool pendingfilterstatus = false;

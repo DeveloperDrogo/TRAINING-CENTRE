@@ -60,8 +60,6 @@ class TutionCenterRepo {
         data: {'user_id': SharedPrefs().id},
       );
 
-      print(response.data);
-
       List<TrainingCenterListModel> trainingCentersList = [];
 
       // Iterate through the list of job postings in the API response

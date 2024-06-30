@@ -10,7 +10,8 @@ import 'package:staff_client_side/colors/colors.dart';
 import 'package:staff_client_side/constant/sharedprefs.dart';
 
 import 'package:staff_client_side/features/auth/login/screens/login.dart';
-import 'package:staff_client_side/features/coachingManager/screens/addStaff.dart';
+import 'package:staff_client_side/features/coachingManager/screens/staffInfo/addStaff.dart';
+import 'package:staff_client_side/features/coachingManager/screens/staffInfo/staffList.dart';
 import 'package:staff_client_side/features/home/screens/bottomNavigation.dart';
 import 'package:staff_client_side/features/navigation/screens/navigation.dart';
 import 'package:staff_client_side/features/notification/screens/notification.dart';
@@ -28,6 +29,7 @@ extension StringExtension on String {
     return this[0].toUpperCase() + substring(1);
   }
 }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -60,19 +62,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-     String initialRoute = isLoggedIn ? '/bottom' : '/login';
+    String initialRoute = isLoggedIn ? '/bottom' : '/login';
     return OverlaySupport(
       child: AdaptiveTheme(
         light: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.light,
-          colorSchemeSeed: MyColors.primaryColor
-        ),
+            useMaterial3: true,
+            brightness: Brightness.light,
+            colorSchemeSeed: MyColors.primaryColor),
         dark: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          colorSchemeSeed:  MyColors.primaryColor
-        ),
+            useMaterial3: true,
+            brightness: Brightness.dark,
+            colorSchemeSeed: MyColors.primaryColor),
         initial: savedThemeMode ?? AdaptiveThemeMode.light,
         builder: (theme, darkTheme) => MaterialApp(
           //title: 'Adaptive Theme Demo',
@@ -88,12 +88,13 @@ class MyApp extends StatelessWidget {
                   number: '',
                 ),
             MyRoutes.bottom: (context) => const BottomNavigationPage(),
-            MyRoutes.addCenter:(context) => const AddTutionCenterPage(),
-            MyRoutes.centerInfo:(context) => const TrainingCenterInfo(),
-            MyRoutes.navigation:(context) => const NavigationPage(),
-            MyRoutes.notification:(context) => const NotificationPage(),
-            MyRoutes.profile:(context) => const ProfilePage(),
-            MyRoutes.addStaff:(context) => const AddStaffPage()
+            MyRoutes.addCenter: (context) => const AddTutionCenterPage(),
+            MyRoutes.centerInfo: (context) => const TrainingCenterInfo(),
+            MyRoutes.navigation: (context) => const NavigationPage(),
+            MyRoutes.notification: (context) => const NotificationPage(),
+            MyRoutes.profile: (context) => const ProfilePage(),
+            MyRoutes.addStaff: (context) => const AddStaffPage(),
+            MyRoutes.listAllStaffs: (context) => const AllStaffListPage(),
           },
         ),
       ),

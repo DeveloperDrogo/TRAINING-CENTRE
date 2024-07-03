@@ -32,3 +32,9 @@ final class ListAllStaffsState extends CoachingManagerState{
 final class NavigateToAddStaffPageState extends CoachingManagerActionState{}
 
 final class NavigateToStaffListState extends CoachingManagerActionState{}
+
+final class UpdateStaffSuccessState extends CoachingManagerActionState {}
+
+final class UpdateStaffFailedState extends CoachingManagerActionState {}
+
+final class AskPermissionforDeleteStaffState extends CoachingManagerActionState{}

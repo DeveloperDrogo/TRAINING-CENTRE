@@ -140,7 +140,7 @@ class _EditStaffPageState extends State<EditStaffPage> {
               );
             },
           );
-        } else if (state is AddStaffSuccessState) {
+        } else if (state is UpdateStaffSuccessState) {
           Navigator.pushReplacementNamed(context, MyRoutes.listAllStaffs);
           final snackBar = SnackBar(
             /// need to set following properties for best effect of awesome_snackbar_content
@@ -149,7 +149,7 @@ class _EditStaffPageState extends State<EditStaffPage> {
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: 'Success',
-              message: 'Staff has been added successfully.',
+              message: 'Staff has been updated successfully.',
 
               /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
               contentType: ContentType.success,
@@ -159,7 +159,7 @@ class _EditStaffPageState extends State<EditStaffPage> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackBar);
-        } else if (state is AddStaffFailedState) {
+        } else if (state is UpdateStaffFailedState) {
           Navigator.pushReplacementNamed(context, MyRoutes.listAllStaffs);
           final snackBar = SnackBar(
             /// need to set following properties for best effect of awesome_snackbar_content
@@ -168,7 +168,7 @@ class _EditStaffPageState extends State<EditStaffPage> {
             backgroundColor: Colors.transparent,
             content: AwesomeSnackbarContent(
               title: 'Failed',
-              message: 'Staff addition failed.',
+              message: 'Staff updated failed.',
 
               /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
               contentType: ContentType.failure,
@@ -262,7 +262,9 @@ class _EditStaffPageState extends State<EditStaffPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formkey.currentState!.validate()) {
-                          coachingManagerBloc.add(OnClickAddStaffEvent(
+                          coachingManagerBloc.add(OnClickEditStaffEvent(
+                              userId: widget.userId,
+                              staffId: widget.staffId,
                               name: name.text,
                               dob: userDob,
                               email: email.text,
@@ -273,7 +275,8 @@ class _EditStaffPageState extends State<EditStaffPage> {
                               workExperience: workExperience.text,
                               governmentId: pancard.text,
                               contact: contact.text,
-                              roleid: roleId!));
+                              roleid: roleId!,
+                              roleName: roleName!));
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -360,7 +363,58 @@ class _EditStaffPageState extends State<EditStaffPage> {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(15, 20, 15, 15),
+                                  const EdgeInsets.only(top: 15, right: 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                    onTap: (){
+                                      
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: const Color.fromARGB(
+                                              255, 231, 63, 51)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(0),
+                                              child: Text(
+                                                "Delete Staff",
+                                                style: GoogleFonts.lato(
+                                                    textStyle: const TextStyle(
+                                                        color: Colors.white)),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            const CircleAvatar(
+                                                backgroundColor: Color.fromARGB(
+                                                    255, 246, 129, 120),
+                                                radius: 16,
+                                                child: Icon(
+                                                  IconlyBroken.delete,
+                                                  color: Colors.white,
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(15, 15, 15, 15),
                               child: TextFormField(
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {

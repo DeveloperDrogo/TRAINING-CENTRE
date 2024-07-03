@@ -63,6 +63,7 @@ dependencies:
   image_picker: ^1.0.8
   flutter_svg: ^2.0.10+1
   dropdown_search: ^5.0.6
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:

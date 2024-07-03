@@ -114,7 +114,7 @@ class _OtpPageState extends State<OtpPage> {
               context,
               MaterialPageRoute(
                 builder: (context) => LoginPage(number: widget.mobileNumber),
-              ));
+              )); 
         }
       },
       builder: (context, state) {

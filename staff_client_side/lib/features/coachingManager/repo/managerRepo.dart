@@ -82,8 +82,6 @@ class ManagerRepo {
         '${Server.api}listAllStaffs',
         data: {'user_id': SharedPrefs().id},
       );
-      
-      print(response.data['staffsWithRoles']);
 
       var listAllStaffs = response.data['staffsWithRoles'];
 
@@ -100,6 +98,118 @@ class ManagerRepo {
       // Return the list of job postings
       return allStaffs;
     } catch (e) {
+      return [];
+    }
+  }
+
+  static Future updateStaffDetails({
+    required userId,
+    required staffId,
+    required name,
+    required contact,
+    required dob,
+    required email,
+    required gender,
+    required roleId,
+    required blood,
+    required address,
+    required qualification,
+    required workExperience,
+    required govermentID,
+  }) async {
+    var url = '${Server.api}updateStaff';
+    Dio dio = Dio();
+    try {
+      final response = await dio.post(
+        url,
+        data: jsonEncode({
+          'user_id': userId,
+          'staff_id': staffId,
+          'name': name,
+          'contact': contact,
+          'roleId': roleId,
+          'dob': dob,
+          'email': email,
+          'gender': gender,
+          'bloodGroup': blood,
+          'address': address,
+          'qualification': qualification,
+          'work_experience': workExperience,
+          'government_id': govermentID,
+          'my_id': SharedPrefs().id,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    } finally {
+      dio.close();
+    }
+  }
+
+  static Future listStaffs() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        '${Server.api}listStaffs',
+        data: {'id': SharedPrefs().id},
+      );
+
+      if (response.statusCode == 200) {
+        List result = response.data;
+        return result;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      //  print(e);
+      return [];
+    }
+  }
+
+  static Future listAllSubjects() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.get(
+        '${Server.api}listSubjects',
+      );
+
+      if (response.statusCode == 200) {
+        List result = response.data;
+        return result;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      //  print(e);
+      return [];
+    }
+  }
+
+  static Future listBatchTimings() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.get(
+        '${Server.api}listBatchTime',
+      );
+
+      if (response.statusCode == 200) {
+        List result = response.data;
+        return result;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      //  print(e);
       return [];
     }
   }

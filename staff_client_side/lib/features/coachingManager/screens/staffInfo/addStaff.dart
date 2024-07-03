@@ -1256,7 +1256,7 @@ class _AddStaffPageState extends State<AddStaffPage> {
                                     isBlankPancard = value.toUpperCase();
                                   });
                                 },
-                               
+
                                 textCapitalization:
                                     TextCapitalization.characters,
 

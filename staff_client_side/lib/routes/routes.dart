@@ -8,4 +8,5 @@ class MyRoutes{
   static String profile = '/profile';
   static String addStaff = '/addStaff';
   static String listAllStaffs = '/listAllStaffs';
+  static String classShedule = '/classShedule';
 }

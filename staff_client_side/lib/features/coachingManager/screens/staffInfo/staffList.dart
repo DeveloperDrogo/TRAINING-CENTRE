@@ -41,6 +41,8 @@ class _AllStaffListPageState extends State<AllStaffListPage> {
           Navigator.pushReplacementNamed(context, MyRoutes.bottom);
         } else if (state is NavigateToAddStaffPageState) {
           Navigator.pushReplacementNamed(context, MyRoutes.addStaff);
+        }else if(state is AskPermissionforDeleteStaffState){
+          
         }
       },
       builder: (context, state) {

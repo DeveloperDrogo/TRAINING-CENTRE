@@ -17,6 +17,9 @@ class CoachingManagerBloc
     on<ListAllStaffEvent>(listAllStaffEvent);
     on<NavigateToAddStaff>(navigateToAddStaff);
     on<NavigateToStaffsList>(navigateToStaffsList);
+    on<OnClickEditStaffEvent>(onClickEditStaffEvent);
+    on<CreateClassSheduleEvent>(createClassSheduleEvent);
+    on<OnClickStaffDeleteEvent>(onClickStaffDeleteEvent);
   }
 
   FutureOr<void> coachingInitialEvent(
@@ -68,6 +71,42 @@ class CoachingManagerBloc
 
   FutureOr<void> navigateToStaffsList(
       NavigateToStaffsList event, Emitter<CoachingManagerState> emit) {
-        emit(NavigateToStaffListState());
+    emit(NavigateToStaffListState());
+  }
+
+  FutureOr<void> onClickEditStaffEvent(
+      OnClickEditStaffEvent event, Emitter<CoachingManagerState> emit) async {
+    final success = await ManagerRepo.updateStaffDetails(
+        userId: event.userId,
+        staffId: event.staffId,
+        name: event.name,
+        contact: event.contact,
+        dob: event.dob,
+        email: event.email,
+        gender: event.gender,
+        roleId: event.roleid,
+        blood: event.blood,
+        address: event.address,
+        qualification: event.qualification,
+        workExperience: event.workExperience,
+        govermentID: event.governmentId);
+
+    if (success) {
+      emit(UpdateStaffSuccessState());
+    } else {
+      emit(UpdateStaffFailedState());
+    }
+  }
+
+  FutureOr<void> createClassSheduleEvent(
+      CreateClassSheduleEvent event, Emitter<CoachingManagerState> emit) async {
+    final List listAllStaffs = await ManagerRepo.listStaffs();
+    final List listAllSubjects = await ManagerRepo.listAllSubjects();
+    final List batchTime = await ManagerRepo.listBatchTimings();
+  }
+
+  FutureOr<void> onClickStaffDeleteEvent(
+      OnClickStaffDeleteEvent event, Emitter<CoachingManagerState> emit) {
+        emit(AskPermissionforDeleteStaffState());
       }
 }

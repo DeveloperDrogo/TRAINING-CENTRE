@@ -60,7 +60,9 @@ staffInfoRouter.post(
       let newStaffId = "0001";
 
       if (!isTrainingManager) {
-        const findAllStaffs = await LoginModel.find({training_center_id:userInfo.training_center_id}).sort({ staff_id: -1 });
+        const findAllStaffs = await LoginModel.find({
+          training_center_id: userInfo.training_center_id,
+        }).sort({ staff_id: -1 });
 
         if (findAllStaffs.length > 0) {
           const lastStaff = findAllStaffs[0];
@@ -114,15 +116,11 @@ staffInfoRouter.post("/api/listAllStaffs", async (req, res) => {
 
     const fetchTrainingCenterId = await LoginModel.findById(user_id);
 
-   
-
     const listAllStaffs = await LoginModel.find({
       training_center_id: fetchTrainingCenterId.training_center_id,
       is_deleted: 0,
-      _id:{$ne:user_id}
+      _id: { $ne: user_id },
     });
-
-    
 
     const staffsWithRoles = await Promise.all(
       listAllStaffs.map(async (staff) => {
@@ -134,16 +132,85 @@ staffInfoRouter.post("/api/listAllStaffs", async (req, res) => {
       })
     );
 
-    if(!staffsWithRoles){
-      return res.status(401).json({msg:"No staffs Found"});
+    if (!staffsWithRoles) {
+      return res.status(401).json({ msg: "No staffs Found" });
     }
 
+    //console.log(staffsWithRoles);
 
-    return res.status(200).json({staffsWithRoles});
-
+    return res.status(200).json({ staffsWithRoles });
   } catch (error) {
     return res.status(501).json({ msg: "Internal Server Error" });
   }
 });
+
+staffInfoRouter.post(
+  "/api/updateStaff",
+  formatDateMiddleware,
+  async (req, res) => {
+    try {
+      const {
+        user_id,
+        my_id,
+        name,
+        contact,
+        roleId,
+        dob,
+        email,
+        gender,
+        bloodGroup,
+        address,
+        qualification,
+        work_experience,
+        government_id,
+      } = req.body;
+
+      console.log(req.body);
+
+      const getRoleInfo = await RoleModel.findById(roleId);
+      if (!getRoleInfo) {
+        return res.status(404).json({ msg: "Role not found" });
+      }
+
+      const updated_data = {
+        name: name,
+        email: email,
+        role_id: roleId,
+        mblnumber: contact,
+        address: address,
+        dob: dob,
+        gender: gender,
+        bloodGroup: bloodGroup,
+        qualification: qualification,
+        work_experience: work_experience,
+        government_id: government_id,
+        updated_date_time: req.formattedDate,
+        is_deleted: 0,
+        updated_by: my_id
+      };
+
+      // Determine if the role is "TRAINING MANAGER"
+      const updateStaffInfo = await LoginModel.findByIdAndUpdate(
+        user_id,
+        updated_data,
+        { new: true }
+      );
+
+      if (!updateStaffInfo) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+
+      console.log("Updated User:", updateStaffInfo);
+
+      return res
+        .status(200)
+        .json({ msg: "Staff updated successfully", staff: updateStaffInfo });
+    } catch (error) {
+      console.error(error);
+      return res.status(501).json({ msg: "Internal Server Error" });
+    }
+  }
+);
+
 
 module.exports = staffInfoRouter;

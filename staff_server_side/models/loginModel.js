@@ -82,6 +82,10 @@ const LoginSchema = mongoose.Schema({
     type:String
   },
 
+  updated_by:{
+    type:mongoose.Schema.Types.ObjectId
+  },
+
   created_by:{
     type:mongoose.Schema.Types.ObjectId
   }

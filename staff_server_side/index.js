@@ -1,12 +1,15 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const cors = require('cors');
-const path = require('path');
-const authRouter = require('./features/auth/auth');
-const homeRouter = require('./features/home/home');
-const trainingRouter = require('./features/trainingCenter/trainingCenter');
+const cors = require("cors");
+const path = require("path");
+const authRouter = require("./features/auth/auth");
+const homeRouter = require("./features/home/home");
+const trainingRouter = require("./features/trainingCenter/trainingCenter");
 const staffInfoRouter = require("./features/coachingManager/staffInfo");
+const dotenv = require("dotenv");
+const classSheduleRouter = require('./features/coachingManager/classShedule');
+const connectDB = require('./config/DB'); // Correct casing
 
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -15,26 +18,28 @@ app.use(authRouter);
 app.use(homeRouter);
 app.use(trainingRouter);
 app.use(staffInfoRouter);
+app.use(classSheduleRouter);
 
+app.use(
+  "/assets/dashboardMenu",
+  express.static(path.join(__dirname, "/assets/dashboardMenu"))
+);
+app.use(
+  "/uploads/user_images",
+  express.static(path.join(__dirname, "uploads/user_images"))
+);
 
-app.use('/assets/dashboardMenu', express.static(path.join(__dirname, '/assets/dashboardMenu')));
-app.use('/uploads/user_images', express.static(path.join(__dirname, 'uploads/user_images')));
+PORT = process.env.PORT;
+IP = process.env.IP;
 
-const DB =
-  "mongodb+srv://ankith:EHvMIfU0rIrVZ6uj@cluster0.jy0s1qs.mongodb.net/db_manomay?retryWrites=true&w=majority";
-
-PORT = 3000;
-IP = "192.168.1.8";
-
-app.listen(PORT, IP, () => {
-  console.log(`Server connected for ${IP}:${PORT}`);
+connectDB().then(()=>{
+  app.listen(PORT, IP, () => {
+    console.log(`Server connected for ${IP}:${PORT}`);
+  });
+}).catch((err)=>{
+  console.log("MONGO db connection !!!",err);
 });
 
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log("Database connected");
-  })
-  .catch((e) => {
-    console.log(e);
-  });
+
+
+

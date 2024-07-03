@@ -14,11 +14,9 @@ homeRouter.post("/api/dashboardMenu", async (req, res) => {
 
     // Fetch user role
     const getRole = await RoleModel.findById(getUserInfo.role_id);
-    console.log(getRole);
-
+   
     // Fetch all menu items
     const listAllMenu = await dashboardModel.find({ is_deleted: 0 });
-    console.log(listAllMenu);
 
     // Filter menu items based on role
     let filteredMenu = listAllMenu;
@@ -36,7 +34,8 @@ homeRouter.post("/api/dashboardMenu", async (req, res) => {
         (item) => 
           item.title === "Profile" || 
           item.title === "Notification" || 
-          item.title === "Staffs Info"
+          item.title === "Staffs Info" ||
+          item.title === "Class Shedule"
       );
     }
 

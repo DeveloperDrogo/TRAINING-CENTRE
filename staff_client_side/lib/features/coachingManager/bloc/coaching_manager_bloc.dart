@@ -20,6 +20,7 @@ class CoachingManagerBloc
     on<OnClickEditStaffEvent>(onClickEditStaffEvent);
     on<CreateClassSheduleEvent>(createClassSheduleEvent);
     on<OnClickStaffDeleteEvent>(onClickStaffDeleteEvent);
+    on<OnClickCreateClassSheduleEvent>(onClickCreateClassSheduleEvent);
   }
 
   FutureOr<void> coachingInitialEvent(
@@ -100,13 +101,38 @@ class CoachingManagerBloc
 
   FutureOr<void> createClassSheduleEvent(
       CreateClassSheduleEvent event, Emitter<CoachingManagerState> emit) async {
+    emit(ClassSheduleLoader());
     final List listAllStaffs = await ManagerRepo.listStaffs();
     final List listAllSubjects = await ManagerRepo.listAllSubjects();
     final List batchTime = await ManagerRepo.listBatchTimings();
+    final List classrooms = await ManagerRepo.listClassrooms();
+
+    emit(CreateClassSheduleState(
+        staffAllList: listAllStaffs,
+        batchTimeList: batchTime,
+        subjectList: listAllSubjects,
+        classrooms: classrooms));
   }
 
   FutureOr<void> onClickStaffDeleteEvent(
       OnClickStaffDeleteEvent event, Emitter<CoachingManagerState> emit) {
-        emit(AskPermissionforDeleteStaffState());
-      }
+    emit(AskPermissionforDeleteStaffState());
+  }
+
+  FutureOr<void> onClickCreateClassSheduleEvent(
+      OnClickCreateClassSheduleEvent event,
+      Emitter<CoachingManagerState> emit) async {
+    emit(CoachingManagerActionLoader());
+    final bool success = await ManagerRepo.insertClassShedule(
+        staffId: event.staffId,
+        subjectId: event.subjectId,
+        batchId: event.batchId,
+        classId: event.classRoomId);
+
+    if (success) {
+      emit(ClassSheduleInsertedSuccessState());
+    } else {
+      emit(ClassSheduleInsertedFailedState());
+    }
+  }
 }

@@ -73,6 +73,19 @@ final class OnClickEditStaffEvent extends CoachingManagerEvent {
       required this.roleName});
 }
 
-class OnClickStaffDeleteEvent extends CoachingManagerEvent{}
+class OnClickStaffDeleteEvent extends CoachingManagerEvent {}
 
-class CreateClassSheduleEvent extends CoachingManagerEvent{}
+class CreateClassSheduleEvent extends CoachingManagerEvent {}
+
+class OnClickCreateClassSheduleEvent extends CoachingManagerEvent {
+  final String staffId;
+  final String subjectId;
+  final String batchId;
+  final String classRoomId;
+
+  OnClickCreateClassSheduleEvent(
+      {required this.staffId,
+      required this.subjectId,
+      required this.batchId,
+      required this.classRoomId});
+}

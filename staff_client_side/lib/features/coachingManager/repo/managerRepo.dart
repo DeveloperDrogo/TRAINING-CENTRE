@@ -164,6 +164,7 @@ class ManagerRepo {
 
       if (response.statusCode == 200) {
         List result = response.data;
+
         return result;
       } else {
         return [];
@@ -178,12 +179,12 @@ class ManagerRepo {
     Dio dio = Dio();
 
     try {
-      final response = await dio.get(
-        '${Server.api}listSubjects',
-      );
+      final response = await dio
+          .post('${Server.api}listSubjects', data: {'id': SharedPrefs().id});
 
       if (response.statusCode == 200) {
         List result = response.data;
+
         return result;
       } else {
         return [];
@@ -198,9 +199,8 @@ class ManagerRepo {
     Dio dio = Dio();
 
     try {
-      final response = await dio.get(
-        '${Server.api}listBatchTime',
-      );
+      final response = await dio
+          .post('${Server.api}listBatchTime', data: {'id': SharedPrefs().id});
 
       if (response.statusCode == 200) {
         List result = response.data;
@@ -211,6 +211,52 @@ class ManagerRepo {
     } catch (e) {
       //  print(e);
       return [];
+    }
+  }
+
+  static Future listClassrooms() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio
+          .post('${Server.api}classRoomList', data: {'id': SharedPrefs().id});
+
+      if (response.statusCode == 200) {
+        List result = response.data;
+        return result;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      //  print(e);
+      return [];
+    }
+  }
+
+  static Future insertClassShedule(
+      {required staffId,
+      required subjectId,
+      required batchId,
+      required classId}) async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post('${Server.api}insertClassShedule', data: {
+        'user_id': SharedPrefs().id,
+        'staff_id': staffId,
+        'subject_id': subjectId,
+        'batch_id': batchId,
+        'class_id': classId
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      //  print(e);
+      return false;
     }
   }
 }

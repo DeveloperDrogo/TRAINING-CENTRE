@@ -38,3 +38,22 @@ final class UpdateStaffSuccessState extends CoachingManagerActionState {}
 final class UpdateStaffFailedState extends CoachingManagerActionState {}
 
 final class AskPermissionforDeleteStaffState extends CoachingManagerActionState{}
+
+final class CreateClassSheduleState extends CoachingManagerState{
+  final List staffAllList;
+  final List batchTimeList;
+  final List subjectList;
+  final List classrooms;
+
+  CreateClassSheduleState({required this.staffAllList, required this.batchTimeList, required this.subjectList,required this.classrooms,});
+
+
+}
+
+final class ClassSheduleLoader extends CoachingManagerState{}
+
+final class CoachingManagerActionLoader extends CoachingManagerActionState{}
+
+final class ClassSheduleInsertedSuccessState extends CoachingManagerActionState{}
+
+final class ClassSheduleInsertedFailedState extends CoachingManagerActionState{}

@@ -1,12 +1,8 @@
-const express = require("express");
-const trainingCenterModel = require("../../models/trainingCenterModel");
-const RoleModel = require("../../models/roleModel");
-const LoginModel = require("../../models/loginModel");
-const formatDateMiddleware = require("../../middleware/dateTime");
+const trainingCenterModel = require("../models/trainingCenterModel");
+const RoleModel = require("../models/roleModel");
+const LoginModel = require("../models/loginModel");
 
-const trainingRouter = express.Router();
-
-trainingRouter.post("/api/addTrainingCenter", async (req, res) => {
+async function addTrainingCenter(req, res) {
   try {
     const {
       training_center_name,
@@ -40,11 +36,10 @@ trainingRouter.post("/api/addTrainingCenter", async (req, res) => {
     console.log(getMangerRole);
     console.log(getMangerRole[0]._id);
 
-
     let addManagerInfo = new LoginModel({
       name: manager_name,
       email: manager_email,
-      role_id:getMangerRole[0]._id,
+      role_id: getMangerRole[0]._id,
       mblnumber: manager_contact,
       training_center_id: addTrainingcenter._id,
       address: manager_address,
@@ -57,9 +52,9 @@ trainingRouter.post("/api/addTrainingCenter", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ msg: "Internal Server Error" });
   }
-});
+}
 
-trainingRouter.post("/api/listTrainingCenters", async (req, res) => {
+async function listTrainingCenters(req, res) {
   try {
     const { user_id } = req.body;
     console.log(req.body);
@@ -82,7 +77,6 @@ trainingRouter.post("/api/listTrainingCenters", async (req, res) => {
     const fetchTrainingcenterData = await Promise.all(
       fetchMangerInfo.map(async (manager) => {
         const trainingCenter = await trainingCenterModel.findOne({
-      
           _id: manager.training_center_id,
         });
 
@@ -109,69 +103,75 @@ trainingRouter.post("/api/listTrainingCenters", async (req, res) => {
     console.log(error);
     res.status(500).send({ message: "Internal server error" });
   }
-});
+}
 
-trainingRouter.post(
-  "/api/updateTrainingCenter",
-  formatDateMiddleware,
-  async (req, res) => {
-    try {
-      const {
-        training_center_name,
-        training_center_address,
-        is_active,
-        training_center_subscription,
-        manager_name,
-        manager_email,
-        manager_contact,
-        manager_address,
-        manager_user_id,
-        training_center_id,
-        user_id,
-        status,
-        is_subscribed
-      } = req.body;
+async function updateTrainingCenter(req, res) {
+  try {
+    const {
+      training_center_name,
+      training_center_address,
+      is_active,
+      training_center_subscription,
+      manager_name,
+      manager_email,
+      manager_contact,
+      manager_address,
+      manager_user_id,
+      training_center_id,
+      user_id,
+      status,
+      is_subscribed,
+    } = req.body;
 
-      managerUpdate = {
-        name: manager_name,
-        email: manager_email,
-        mblnumber: manager_contact,
-        address: manager_address,
-        created_by: user_id,
-        updated_date_time: req.formattedDate,
-      };
+    managerUpdate = {
+      name: manager_name,
+      email: manager_email,
+      mblnumber: manager_contact,
+      address: manager_address,
+      created_by: user_id,
+      updated_date_time: req.formattedDate,
+    };
 
-      await LoginModel.findByIdAndUpdate(manager_user_id, managerUpdate, {
+    await LoginModel.findByIdAndUpdate(manager_user_id, managerUpdate, {
+      new: true, // Return the updated document
+      runValidators: true, // Run schema validation
+    });
+
+    trainingUpdate = {
+      training_center_name: training_center_name,
+      training_center_address: training_center_address,
+      subscription_amount: training_center_subscription,
+      updated_date_time: req.formattedDate,
+      is_deleted: is_active,
+      status:
+        is_active == 1
+          ? "DEACTIVATED"
+          : is_subscribed == 0
+          ? "PENDING"
+          : is_subscribed == 1
+          ? "SUBSCRIBED"
+          : "PENDING",
+    };
+
+    await trainingCenterModel.findByIdAndUpdate(
+      training_center_id,
+      trainingUpdate,
+      {
         new: true, // Return the updated document
         runValidators: true, // Run schema validation
-      });
+      }
+    );
 
-     
-
-      trainingUpdate = {
-        training_center_name: training_center_name,
-        training_center_address: training_center_address,
-        subscription_amount: training_center_subscription,
-        updated_date_time: req.formattedDate,
-        is_deleted:is_active,
-        status:is_active==1?'DEACTIVATED':is_subscribed==0?'PENDING':is_subscribed==1?'SUBSCRIBED':'PENDING'
-      };
-
-      await trainingCenterModel.findByIdAndUpdate(
-        training_center_id,
-        trainingUpdate,
-        {
-          new: true, // Return the updated document
-          runValidators: true, // Run schema validation
-        }
-      );
-
-      res.status(200).json({ msg: "success" });
-    } catch (error) {
-      console.log(error);
-      res.status(500).send({ message: "Internal server error" });
-    }
+    res.status(200).json({ msg: "success" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal server error" });
   }
-);
+}
 
-module.exports = trainingRouter;
+
+module.exports = {
+    addTrainingCenter,
+    listTrainingCenters,
+    updateTrainingCenter
+}

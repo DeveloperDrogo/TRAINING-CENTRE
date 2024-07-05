@@ -5,7 +5,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:staff_client_side/constant/sharedprefs.dart';
+import 'package:staff_client_side/features/coachingManager/model/batchListModel.dart';
+import 'package:staff_client_side/features/coachingManager/model/classRoomModel.dart';
 import 'package:staff_client_side/features/coachingManager/model/staffListModel.dart';
+import 'package:staff_client_side/features/coachingManager/model/subjectListModel.dart';
 import 'package:staff_client_side/server/server.dart';
 
 class ManagerRepo {
@@ -163,9 +166,20 @@ class ManagerRepo {
       );
 
       if (response.statusCode == 200) {
-        List result = response.data;
+        var listAllStaffs = response.data;
 
-        return result;
+        List<StaffListModel> allStaffs = [];
+
+        // Iterate through the list of job postings in the API response
+        for (var staffData in listAllStaffs) {
+          // Create a PostedJobModel instance for each job posting
+          StaffListModel staffs = StaffListModel.fromMap(staffData);
+          // Add the PostedJobModel instance to the allStaffs
+          allStaffs.add(staffs);
+        }
+
+        // Return the list of job postings
+        return allStaffs;
       } else {
         return [];
       }
@@ -183,9 +197,20 @@ class ManagerRepo {
           .post('${Server.api}listSubjects', data: {'id': SharedPrefs().id});
 
       if (response.statusCode == 200) {
-        List result = response.data;
+        var listAllSubjects = response.data;
 
-        return result;
+        List<SubjectListModel> allsubjects = [];
+
+        // Iterate through the list of job postings in the API response
+        for (var subjectData in listAllSubjects) {
+          // Create a PostedJobModel instance for each job posting
+          SubjectListModel subject = SubjectListModel.fromMap(subjectData);
+          // Add the PostedJobModel instance to the allStaffs
+          allsubjects.add(subject);
+        }
+
+        // Return the list of job postings
+        return allsubjects;
       } else {
         return [];
       }
@@ -203,8 +228,20 @@ class ManagerRepo {
           .post('${Server.api}listBatchTime', data: {'id': SharedPrefs().id});
 
       if (response.statusCode == 200) {
-        List result = response.data;
-        return result;
+        var listAllBatches = response.data;
+
+        List<BatchListModel> allBatches = [];
+
+        // Iterate through the list of job postings in the API response
+        for (var batchData in listAllBatches) {
+          // Create a PostedJobModel instance for each job posting
+          BatchListModel batch = BatchListModel.fromMap(batchData);
+          // Add the PostedJobModel instance to the allStaffs
+          allBatches.add(batch);
+        }
+
+        // Return the list of job postings
+        return allBatches;
       } else {
         return [];
       }
@@ -222,8 +259,20 @@ class ManagerRepo {
           .post('${Server.api}classRoomList', data: {'id': SharedPrefs().id});
 
       if (response.statusCode == 200) {
-        List result = response.data;
-        return result;
+        var listAllClass = response.data;
+
+        List<ClassRoomModel> allClassess = [];
+
+        // Iterate through the list of job postings in the API response
+        for (var classData in listAllClass) {
+          // Create a PostedJobModel instance for each job posting
+          ClassRoomModel batch = ClassRoomModel.fromMap(classData);
+          // Add the PostedJobModel instance to the allStaffs
+          allClassess.add(batch);
+        }
+
+        // Return the list of job postings
+        return allClassess;
       } else {
         return [];
       }

@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:staff_client_side/features/coachingManager/model/batchListModel.dart';
+import 'package:staff_client_side/features/coachingManager/model/classRoomModel.dart';
 import 'package:staff_client_side/features/coachingManager/model/staffListModel.dart';
+import 'package:staff_client_side/features/coachingManager/model/subjectListModel.dart';
 import 'package:staff_client_side/features/coachingManager/repo/managerRepo.dart';
 
 part 'coaching_manager_event.dart';
@@ -102,13 +105,12 @@ class CoachingManagerBloc
   FutureOr<void> createClassSheduleEvent(
       CreateClassSheduleEvent event, Emitter<CoachingManagerState> emit) async {
     emit(ClassSheduleLoader());
-    final List listAllStaffs = await ManagerRepo.listStaffs();
-    final List listAllSubjects = await ManagerRepo.listAllSubjects();
-    final List batchTime = await ManagerRepo.listBatchTimings();
-    final List classrooms = await ManagerRepo.listClassrooms();
+    final List<SubjectListModel> listAllSubjects =
+        await ManagerRepo.listAllSubjects();
+    final List<BatchListModel> batchTime = await ManagerRepo.listBatchTimings();
+    final List<ClassRoomModel> classrooms = await ManagerRepo.listClassrooms();
 
     emit(CreateClassSheduleState(
-        staffAllList: listAllStaffs,
         batchTimeList: batchTime,
         subjectList: listAllSubjects,
         classrooms: classrooms));

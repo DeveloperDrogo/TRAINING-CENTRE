@@ -12,6 +12,7 @@ import 'package:staff_client_side/features/coachingManager/bloc/coaching_manager
 import 'package:staff_client_side/features/coachingManager/screens/staffInfo/editStaff.dart';
 import 'package:staff_client_side/main.dart';
 import 'package:staff_client_side/routes/routes.dart';
+import 'package:staff_client_side/widget/emptyMessage.dart';
 
 class AllStaffListPage extends StatefulWidget {
   const AllStaffListPage({super.key});
@@ -41,9 +42,7 @@ class _AllStaffListPageState extends State<AllStaffListPage> {
           Navigator.pushReplacementNamed(context, MyRoutes.bottom);
         } else if (state is NavigateToAddStaffPageState) {
           Navigator.pushReplacementNamed(context, MyRoutes.addStaff);
-        }else if(state is AskPermissionforDeleteStaffState){
-          
-        }
+        } else if (state is AskPermissionforDeleteStaffState) {}
       },
       builder: (context, state) {
         switch (state.runtimeType) {
@@ -250,39 +249,9 @@ class _AllStaffListPageState extends State<AllStaffListPage> {
                                 staff.staffId.toLowerCase().contains(
                                     _searchController.text.toLowerCase()))
                             .isEmpty
-                        ? Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 60),
-                                  child: Container(
-                                    height: 300,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: const BoxDecoration(
-                                        // image: DecorationImage(
-                                        //     image: AssetImage(
-                                        //         'assets/images/nonoti.jpg'))
-                                        ),
-                                    child: Lottie.asset(
-                                        'assets/lottie/empty.json'),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text("There are no staff members to display",
-                                    style: GoogleFonts.lato(
-                                      textStyle: const TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.w500),
-                                    )),
-                                const SizedBox(
-                                  height: 120,
-                                ),
-                              ],
-                            ),
+                        ? const EmptyPage(
+                            description:
+                                "There are no staff members to display",
                           )
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),

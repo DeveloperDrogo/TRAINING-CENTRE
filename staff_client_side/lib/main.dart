@@ -10,6 +10,7 @@ import 'package:staff_client_side/colors/colors.dart';
 import 'package:staff_client_side/constant/sharedprefs.dart';
 import 'package:staff_client_side/features/auth/login/screens/login.dart';
 import 'package:staff_client_side/features/coachingManager/screens/classShedule/createClassShedule.dart';
+import 'package:staff_client_side/features/coachingManager/screens/classShedule/trainingShedule.dart';
 import 'package:staff_client_side/features/coachingManager/screens/staffInfo/addStaff.dart';
 import 'package:staff_client_side/features/coachingManager/screens/staffInfo/staffList.dart';
 import 'package:staff_client_side/features/home/screens/bottomNavigation.dart';
@@ -95,7 +96,7 @@ class MyApp extends StatelessWidget {
             MyRoutes.profile: (context) => const ProfilePage(),
             MyRoutes.addStaff: (context) => const AddStaffPage(),
             MyRoutes.listAllStaffs: (context) => const AllStaffListPage(),
-            MyRoutes.classShedule:(context) => const CreateClassShedulePage()
+            MyRoutes.classShedule:(context) => const TrainingShedulePage()
           },
         ),
       ),

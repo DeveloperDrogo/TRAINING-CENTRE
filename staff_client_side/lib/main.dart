@@ -96,7 +96,11 @@ class MyApp extends StatelessWidget {
             MyRoutes.profile: (context) => const ProfilePage(),
             MyRoutes.addStaff: (context) => const AddStaffPage(),
             MyRoutes.listAllStaffs: (context) => const AllStaffListPage(),
-            MyRoutes.classShedule:(context) => const TrainingShedulePage()
+            MyRoutes.classShedule: (context) => const TrainingShedulePage(
+                  subjectStatus: true,
+                  batchStatus: false,
+                  classStatus: false,
+                )
           },
         ),
       ),

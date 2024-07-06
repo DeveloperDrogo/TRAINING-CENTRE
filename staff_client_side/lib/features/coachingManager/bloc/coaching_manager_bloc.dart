@@ -24,6 +24,13 @@ class CoachingManagerBloc
     on<CreateClassSheduleEvent>(createClassSheduleEvent);
     on<OnClickStaffDeleteEvent>(onClickStaffDeleteEvent);
     on<OnClickCreateClassSheduleEvent>(onClickCreateClassSheduleEvent);
+    on<OnClickAddSubjectEvent>(onClickAddSubjectEvent);
+    on<InsertSubjectEvent>(insertSubjectEvent);
+    on<InsertBatchEvent>(insertBatchEvent);
+    on<OnclickAddClassroomEvent>(onclickAddClassroomEvent);
+    on<InsertClassRoomEvent>(insertClassRoomEvent);
+    on<OnClickDeleteActionEvent>(onClickDeleteActionEvent);
+    on<DeleteEventActionEvent>(deleteEventActionEvent);
   }
 
   FutureOr<void> coachingInitialEvent(
@@ -135,6 +142,138 @@ class CoachingManagerBloc
       emit(ClassSheduleInsertedSuccessState());
     } else {
       emit(ClassSheduleInsertedFailedState());
+    }
+  }
+
+  FutureOr<void> onClickAddSubjectEvent(
+      OnClickAddSubjectEvent event, Emitter<CoachingManagerState> emit) {
+    emit(AddSubjectDialougeBoxState());
+  }
+
+  FutureOr<void> insertSubjectEvent(
+      InsertSubjectEvent event, Emitter<CoachingManagerState> emit) async {
+    emit(CoachingManagerActionLoader());
+    final bool success =
+        await ManagerRepo.insertSubject(subjectName: event.subjectName);
+    if (success) {
+      emit(ClassSheduleSuccessState(
+          subjectStatus: true,
+          batchStatus: false,
+          classStatus: false,
+          description: "The subject has been successfully added."));
+    } else {
+      emit(ClassSheduleSuccessState(
+          subjectStatus: true,
+          batchStatus: false,
+          classStatus: false,
+          description: "Failed to add the subject."));
+    }
+  }
+
+  FutureOr<void> insertBatchEvent(
+      InsertBatchEvent event, Emitter<CoachingManagerState> emit) async {
+    emit(CoachingManagerActionLoader());
+    final bool success = await ManagerRepo.insertBatch(batch: event.batchTime);
+    if (success) {
+      emit(ClassSheduleSuccessState(
+          subjectStatus: false,
+          batchStatus: true,
+          classStatus: false,
+          description: "The batch has been successfully added."));
+    } else {
+      emit(ClassSheduleSuccessState(
+          subjectStatus: false,
+          batchStatus: true,
+          classStatus: false,
+          description: "Failed to add the batch."));
+    }
+  }
+
+  FutureOr<void> onclickAddClassroomEvent(
+      OnclickAddClassroomEvent event, Emitter<CoachingManagerState> emit) {
+    emit(AddClassRoomDialougeBoxState());
+  }
+
+  FutureOr<void> insertClassRoomEvent(
+      InsertClassRoomEvent event, Emitter<CoachingManagerState> emit) async {
+    emit(CoachingManagerActionLoader());
+    final bool success =
+        await ManagerRepo.insertclassRoom(classRoom: event.classRoom);
+
+    if (success) {
+      emit(ClassSheduleSuccessState(
+          subjectStatus: false,
+          batchStatus: false,
+          classStatus: true,
+          description: "The classroom has been successfully added."));
+    } else {
+      emit(ClassSheduleSuccessState(
+          subjectStatus: false,
+          batchStatus: false,
+          classStatus: true,
+          description: "Failed to add the classroom."));
+    }
+  }
+
+  FutureOr<void> onClickDeleteActionEvent(
+      OnClickDeleteActionEvent event, Emitter<CoachingManagerState> emit) {
+    emit(OnclickDeleteActionState(
+        description: event.description,
+        value: event.value,
+        id: event.id,
+        type: event.type));
+  }
+
+  FutureOr<void> deleteEventActionEvent(
+      DeleteEventActionEvent event, Emitter<CoachingManagerState> emit) async {
+    emit(CoachingManagerActionLoader());
+
+    if (event.type == 'BATCH') {
+      final bool success = await ManagerRepo.deleteBatch(deleteId: event.id);
+      if (success) {
+        emit(ClassSheduleSuccessState(
+            subjectStatus: false,
+            batchStatus: true,
+            classStatus: false,
+            description: "The batch has been deleted successfully."));
+      } else {
+        emit(ClassSheduleSuccessState(
+            subjectStatus: false,
+            batchStatus: true,
+            classStatus: false,
+            description: "Failed to delete the batch."));
+      }
+    } else if (event.type == 'SUBJECT') {
+      final bool success = await ManagerRepo.deleteSubject(deleteId: event.id);
+      if (success) {
+        emit(ClassSheduleSuccessState(
+            subjectStatus: true,
+            batchStatus: false,
+            classStatus: false,
+            description: "The subject has been deleted successfully."));
+      } else {
+        emit(ClassSheduleSuccessState(
+            subjectStatus: true,
+            batchStatus: false,
+            classStatus: false,
+            description: "Failed to delete the subject."));
+      }
+    } else if (event.type == 'CLASS') {
+      final bool success =
+          await ManagerRepo.deleteClassRoom(deleteId: event.id);
+      if (success) {
+        emit(ClassSheduleSuccessState(
+            subjectStatus: false,
+            batchStatus: false,
+            classStatus: true,
+            description: "The classroom has been deleted successfully."));
+      } else {
+        emit(ClassSheduleSuccessState(
+            subjectStatus: false,
+            batchStatus: false,
+            classStatus: true,
+            description: "Failed to delete the classroom."));
+      }
     }
   }
 }

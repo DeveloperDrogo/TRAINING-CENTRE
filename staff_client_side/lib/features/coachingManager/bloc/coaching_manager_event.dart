@@ -89,3 +89,45 @@ class OnClickCreateClassSheduleEvent extends CoachingManagerEvent {
       required this.batchId,
       required this.classRoomId});
 }
+
+class OnClickAddSubjectEvent extends CoachingManagerEvent {}
+
+class OnclickAddClassroomEvent extends CoachingManagerEvent {}
+
+class InsertSubjectEvent extends CoachingManagerEvent {
+  final String subjectName;
+
+  InsertSubjectEvent({required this.subjectName});
+}
+
+class InsertBatchEvent extends CoachingManagerEvent {
+  final String batchTime;
+
+  InsertBatchEvent({required this.batchTime});
+}
+
+class InsertClassRoomEvent extends CoachingManagerEvent {
+  final String classRoom;
+
+  InsertClassRoomEvent({required this.classRoom});
+}
+
+final class OnClickDeleteActionEvent extends CoachingManagerEvent {
+  final String description;
+  final String value;
+  final String type;
+  final String id;
+
+  OnClickDeleteActionEvent(
+      {required this.type,
+      required this.description,
+      required this.value,
+      required this.id});
+}
+
+final class DeleteEventActionEvent extends CoachingManagerEvent {
+  final String type;
+  final String id;
+
+  DeleteEventActionEvent({required this.type, required this.id});
+}

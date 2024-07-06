@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 
+typedef BatchDeleteCallback = void Function(String batchId, String batch);
+
 class BatchListPage extends StatelessWidget {
   const BatchListPage(
       {super.key,
@@ -13,7 +15,7 @@ class BatchListPage extends StatelessWidget {
 
   final String batch;
   final String batchId;
-  final ValueChanged onBatchDelete;
+  final BatchDeleteCallback onBatchDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class BatchListPage extends StatelessWidget {
           child: ListTile(
             leading: const Icon(IconlyBroken.time_circle),
             trailing: GestureDetector(
-              onTap: () => onBatchDelete(batchId),
+              onTap: () => onBatchDelete(batchId, batch),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
@@ -58,8 +60,9 @@ class BatchListPage extends StatelessWidget {
               ),
             ),
             title: Text(
-              batch,
-              style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 14),
+              batch.toUpperCase(),
+              style:
+                  GoogleFonts.lato(fontWeight: FontWeight.w600, fontSize: 14),
             ),
           ),
         ),

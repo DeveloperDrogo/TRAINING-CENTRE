@@ -308,4 +308,172 @@ class ManagerRepo {
       return false;
     }
   }
+
+  static Future insertSubject({
+    required subjectName,
+  }) async {
+    var url = '${Server.api}insertSubject';
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        url,
+        data: jsonEncode(
+            {'subject_name': subjectName, 'user_id': SharedPrefs().id}),
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    } finally {
+      dio.close();
+    }
+  }
+
+  static Future insertBatch({
+    required batch,
+  }) async {
+    var url = '${Server.api}insertBatch';
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        url,
+        data: jsonEncode(
+            {'batch_time': batch, 'user_id': SharedPrefs().id}),
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    } finally {
+      dio.close();
+    }
+  }
+
+    static Future insertclassRoom({
+    required classRoom,
+  }) async {
+    var url = '${Server.api}insertClassRoom';
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        url,
+        data: jsonEncode(
+            {'class_room': classRoom, 'user_id': SharedPrefs().id}),
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    } finally {
+      dio.close();
+    }
+  }
+
+  static Future deleteBatch({
+    required deleteId,
+  }) async {
+    var url = '${Server.api}deleteBatch';
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        url,
+        data: jsonEncode(
+            {'delete_id': deleteId, 'user_id': SharedPrefs().id}),
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    } finally {
+      dio.close();
+    }
+  }
+
+  static Future deleteClassRoom({
+    required deleteId,
+  }) async {
+    var url = '${Server.api}deleteClassRoom';
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        url,
+        data: jsonEncode(
+            {'delete_id': deleteId, 'user_id': SharedPrefs().id}),
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    } finally {
+      dio.close();
+    }
+  }
+
+   static Future deleteSubject({
+    required deleteId,
+  }) async {
+    var url = '${Server.api}deleteSubject';
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        url,
+        data: jsonEncode(
+            {'delete_id': deleteId, 'user_id': SharedPrefs().id}),
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    } finally {
+      dio.close();
+    }
+  }
 }

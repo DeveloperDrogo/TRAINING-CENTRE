@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 
+typedef BatchDeleteCallback = void Function(String subjectId, String subject);
+
 class SubjectListPage extends StatelessWidget {
   const SubjectListPage(
       {super.key,
@@ -13,7 +15,7 @@ class SubjectListPage extends StatelessWidget {
 
   final String subjectName;
   final String subjectId;
-  final ValueChanged onSubjectDelete;
+  final BatchDeleteCallback onSubjectDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class SubjectListPage extends StatelessWidget {
           child: ListTile(
             leading: const Icon(IconlyBroken.document),
             trailing: GestureDetector(
-              onTap: () => onSubjectDelete(subjectId),
+              onTap: () => onSubjectDelete(subjectId,subjectName),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
@@ -58,7 +60,7 @@ class SubjectListPage extends StatelessWidget {
               ),
             ),
             title: Text(
-              subjectName,
+              subjectName.toUpperCase(),
               style: GoogleFonts.lato(fontWeight: FontWeight.w600,fontSize: 14),
             ),
           ),

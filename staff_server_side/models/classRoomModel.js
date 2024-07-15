@@ -15,6 +15,21 @@ const classroomSchema = new mongoose.Schema(
       required: true,
       ref: "trainingCenterModel", // Assuming there is a TrainingCenter model
     },
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+
+    created_date_time: {
+      type: String,
+    },
+    
+    updated_by: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+
+    updated_date_time: {
+      type: String,
+    },
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields automatically

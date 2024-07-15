@@ -1,14 +1,39 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const batchTimeSchema = mongoose.Schema({
-    batch_time:{
-        type:String
+const batchTimeSchema = mongoose.Schema(
+  {
+    batch_time: {
+      type: String,
     },
-    is_deleted:{
-        type:Number
-    }
-});
+    is_deleted: {
+      type: Number,
+    },
+    training_center_id: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
 
-const batchTimeModel = mongoose.model("tbl_batch_time",batchTimeSchema,"tbl_batch_time");
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+
+    created_date_time: {
+      type: String,
+    },
+
+    updated_by: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+
+    updated_date_time: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true, // Add createdAt and updatedAt fields automatically
+    collection: "tbl_batch_times",
+  }
+);
+
+const batchTimeModel = mongoose.model("batchTime", batchTimeSchema);
 
 module.exports = batchTimeModel;

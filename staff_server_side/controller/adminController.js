@@ -33,8 +33,6 @@ async function addTrainingCenter(req, res) {
       role_id: "2",
     });
 
-    console.log(getMangerRole);
-    console.log(getMangerRole[0]._id);
 
     let addManagerInfo = new LoginModel({
       name: manager_name,

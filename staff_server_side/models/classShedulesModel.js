@@ -33,6 +33,11 @@ const clssSheduleSchema = new mongoose.Schema(
         ref:"ClassroomModel"
     },
 
+    day:{
+      type:String,
+      required:true
+    },
+
     created_by:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,

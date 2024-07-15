@@ -209,7 +209,8 @@ async function dashboardMenu(req, res) {
           item.title === "Profile" ||
           item.title === "Notification" ||
           item.title === "Staffs Info" ||
-          item.title === "Class Shedule"
+          item.title === "Training Shedule" ||
+          item.title === 'Time Table'
       );
     }
 

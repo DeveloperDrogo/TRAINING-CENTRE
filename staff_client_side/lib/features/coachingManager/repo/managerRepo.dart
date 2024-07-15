@@ -9,6 +9,7 @@ import 'package:staff_client_side/features/coachingManager/model/batchListModel.
 import 'package:staff_client_side/features/coachingManager/model/classRoomModel.dart';
 import 'package:staff_client_side/features/coachingManager/model/staffListModel.dart';
 import 'package:staff_client_side/features/coachingManager/model/subjectListModel.dart';
+import 'package:staff_client_side/features/coachingManager/model/timeTableModel.dart';
 import 'package:staff_client_side/server/server.dart';
 
 class ManagerRepo {
@@ -286,7 +287,8 @@ class ManagerRepo {
       {required staffId,
       required subjectId,
       required batchId,
-      required classId}) async {
+      required classId,
+      required day}) async {
     Dio dio = Dio();
 
     try {
@@ -295,7 +297,8 @@ class ManagerRepo {
         'staff_id': staffId,
         'subject_id': subjectId,
         'batch_id': batchId,
-        'class_id': classId
+        'class_id': classId,
+        'day': day
       });
 
       if (response.statusCode == 200) {
@@ -346,8 +349,7 @@ class ManagerRepo {
     try {
       final response = await dio.post(
         url,
-        data: jsonEncode(
-            {'batch_time': batch, 'user_id': SharedPrefs().id}),
+        data: jsonEncode({'batch_time': batch, 'user_id': SharedPrefs().id}),
         options: Options(
           headers: {'Content-Type': 'application/json'},
         ),
@@ -365,7 +367,7 @@ class ManagerRepo {
     }
   }
 
-    static Future insertclassRoom({
+  static Future insertclassRoom({
     required classRoom,
   }) async {
     var url = '${Server.api}insertClassRoom';
@@ -374,8 +376,8 @@ class ManagerRepo {
     try {
       final response = await dio.post(
         url,
-        data: jsonEncode(
-            {'class_room': classRoom, 'user_id': SharedPrefs().id}),
+        data:
+            jsonEncode({'class_room': classRoom, 'user_id': SharedPrefs().id}),
         options: Options(
           headers: {'Content-Type': 'application/json'},
         ),
@@ -402,8 +404,7 @@ class ManagerRepo {
     try {
       final response = await dio.post(
         url,
-        data: jsonEncode(
-            {'delete_id': deleteId, 'user_id': SharedPrefs().id}),
+        data: jsonEncode({'delete_id': deleteId, 'user_id': SharedPrefs().id}),
         options: Options(
           headers: {'Content-Type': 'application/json'},
         ),
@@ -430,8 +431,7 @@ class ManagerRepo {
     try {
       final response = await dio.post(
         url,
-        data: jsonEncode(
-            {'delete_id': deleteId, 'user_id': SharedPrefs().id}),
+        data: jsonEncode({'delete_id': deleteId, 'user_id': SharedPrefs().id}),
         options: Options(
           headers: {'Content-Type': 'application/json'},
         ),
@@ -449,7 +449,7 @@ class ManagerRepo {
     }
   }
 
-   static Future deleteSubject({
+  static Future deleteSubject({
     required deleteId,
   }) async {
     var url = '${Server.api}deleteSubject';
@@ -458,8 +458,7 @@ class ManagerRepo {
     try {
       final response = await dio.post(
         url,
-        data: jsonEncode(
-            {'delete_id': deleteId, 'user_id': SharedPrefs().id}),
+        data: jsonEncode({'delete_id': deleteId, 'user_id': SharedPrefs().id}),
         options: Options(
           headers: {'Content-Type': 'application/json'},
         ),
@@ -474,6 +473,120 @@ class ManagerRepo {
       return false;
     } finally {
       dio.close();
+    }
+  }
+
+  static Future listTimeTableStaffs() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        '${Server.api}listStaffs',
+        data: {'id': SharedPrefs().id},
+      );
+
+      if (response.statusCode == 200) {
+        var listAllStaffs = response.data;
+
+        // Return the list of job postings
+        return listAllStaffs;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      //  print(e);
+      return [];
+    }
+  }
+
+  static Future listTimeTableSubjects() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio
+          .post('${Server.api}listSubjects', data: {'id': SharedPrefs().id});
+
+      if (response.statusCode == 200) {
+        var listAllSubjects = response.data;
+
+        // Return the list of job postings
+        return listAllSubjects;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      //  print(e);
+      return [];
+    }
+  }
+
+  static Future listTimeTableBatch() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio
+          .post('${Server.api}listBatchTime', data: {'id': SharedPrefs().id});
+
+      if (response.statusCode == 200) {
+        var listAllBatches = response.data;
+
+        // Return the list of job postings
+        return listAllBatches;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      //  print(e);
+      return [];
+    }
+  }
+
+  static Future listTimeTableClassrooms() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio
+          .post('${Server.api}classRoomList', data: {'id': SharedPrefs().id});
+
+      if (response.statusCode == 200) {
+        var listAllClass = response.data;
+
+        // Return the list of job postings
+        return listAllClass;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      //  print(e);
+      return [];
+    }
+  }
+
+  static Future<List<TimeTableModel>> fetchTimeTable() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.post(
+        '${Server.api}listAllTimeTables',
+        data: {'user_id': SharedPrefs().id},
+      );
+
+      var timeTableList = response.data;
+
+      List<TimeTableModel> timetable = [];
+
+      // Iterate through the list of job postings in the API response
+      for (var timeTableData in timeTableList) {
+        // Create a PostedJobModel instance for each job posting
+        TimeTableModel timeTableFetch = TimeTableModel.fromMap(timeTableData);
+        // Add the PostedJobModel instance to the allStaffs
+        timetable.add(timeTableFetch);
+      }
+
+      // Return the list of job postings
+      return timetable;
+    } catch (e) {
+      return [];
     }
   }
 }

@@ -82,12 +82,13 @@ class OnClickCreateClassSheduleEvent extends CoachingManagerEvent {
   final String subjectId;
   final String batchId;
   final String classRoomId;
+  final String day;
 
   OnClickCreateClassSheduleEvent(
       {required this.staffId,
       required this.subjectId,
       required this.batchId,
-      required this.classRoomId});
+      required this.classRoomId,required this.day});
 }
 
 class OnClickAddSubjectEvent extends CoachingManagerEvent {}
@@ -131,3 +132,13 @@ final class DeleteEventActionEvent extends CoachingManagerEvent {
 
   DeleteEventActionEvent({required this.type, required this.id});
 }
+
+final class CreateTimeTableEvent extends CoachingManagerEvent{
+  
+}
+
+final class AddTimeTableEvent extends CoachingManagerEvent{
+  
+}
+
+final class TimeTableFetchState extends CoachingManagerEvent{}

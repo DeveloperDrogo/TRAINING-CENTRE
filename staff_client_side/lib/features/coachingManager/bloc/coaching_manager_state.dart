@@ -106,3 +106,24 @@ final class OnclickDeleteActionState extends CoachingManagerActionState {
       required this.type,
       required this.id});
 }
+
+final class CreateTimeTableState extends CoachingManagerState {
+  final List staffAllList;
+  final List batchTimeList;
+  final List subjectList;
+  final List classrooms;
+
+  CreateTimeTableState({
+    required this.batchTimeList,
+    required this.subjectList,
+    required this.classrooms,
+    required this.staffAllList
+  });
+}
+
+final class TimeTableCompleteFetchSuccess extends  CoachingManagerState{
+   final List<TimeTableModel> timetable;
+
+  TimeTableCompleteFetchSuccess({required this.timetable});
+}
+

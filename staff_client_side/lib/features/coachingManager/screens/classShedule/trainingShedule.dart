@@ -1,6 +1,7 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_import, depend_on_referenced_packages
 
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
@@ -37,14 +38,28 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
 
   final addSubjectController = TextEditingController();
   final addClassroomController = TextEditingController();
+  final _subjectSearchController = TextEditingController();
+  final _batchSearchController = TextEditingController();
+  final _classSubjectController = TextEditingController();
 
   @override
   void initState() {
-    super.initState();
     subjectFilterStatus = widget.subjectStatus;
     batchFilterStatus = widget.batchStatus;
     classRoomFilterStatus = widget.classStatus;
     coachingManagerBloc.add(CreateClassSheduleEvent());
+    super.initState();
+   
+  }
+
+  @override
+  void dispose() {
+    addSubjectController.dispose();
+    addClassroomController.dispose();
+    _subjectSearchController.dispose();
+    _batchSearchController.dispose();
+    _classSubjectController.dispose();
+    super.dispose();
   }
 
   final format = DateFormat("dd-MM-yyyy");
@@ -55,7 +70,6 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
   void onTimeCheckOutChanged(Time newTime) {
     setState(() {
       _batchTime = newTime;
-      print(selectedBatchTime);
       selectedBatchTime = newTime.toString();
       coachingManagerBloc.add(InsertBatchEvent(batchTime: selectedBatchTime));
     });
@@ -106,7 +120,7 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                     height: 25,
                   ),
                   Text(
-                    'Add Subject',
+                    'Add Subject or Activty',
                     style: GoogleFonts.aBeeZee(
                         textStyle: const TextStyle(fontSize: 15)),
                   ),
@@ -123,7 +137,7 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter valid subject';
+                          return 'Please enter valid name';
                         }
                         return null;
                       },
@@ -134,8 +148,8 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                               ? const Color.fromARGB(255, 56, 56, 56)
                               : Colors.white,
                           // fillColor: Colors.white,
-                          hintText: "Enter subject ",
-                          label: Text("Subject",
+                          hintText: "Enter Subject or activity",
+                          label: Text("Subject or activity",
                               style: GoogleFonts.lato(
                                 textStyle: TextStyle(
                                     fontSize: 14,
@@ -470,7 +484,6 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackBar);
-          Future.delayed(Duration(milliseconds: 300)).then((value) {});
         } else if (state is ClassSheduleFailedState) {
           final failedState = state;
           Navigator.push(
@@ -608,7 +621,7 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                                         border: Border.all(
                                             color: Colors.grey, width: 0.5),
                                         color: subjectFilterStatus!
-                                            ? MyColors.primaryColor
+                                            ? MyColors.blueMagic
                                             : AdaptiveTheme.of(context)
                                                     .mode
                                                     .isDark
@@ -623,7 +636,7 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                                           right: 15,
                                           top: 5,
                                           bottom: 5),
-                                      child: Text('SUBJECT INFO',
+                                      child: Text('SUBJECT & ACTIVITIES',
                                           style: GoogleFonts.lato(
                                             textStyle: TextStyle(
                                                 color: subjectFilterStatus!
@@ -657,7 +670,7 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                                         border: Border.all(
                                             color: Colors.grey, width: 0.5),
                                         color: batchFilterStatus!
-                                            ? MyColors.primaryColor
+                                            ? MyColors.blueMagic
                                             : AdaptiveTheme.of(context)
                                                     .mode
                                                     .isDark
@@ -706,7 +719,7 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                                         border: Border.all(
                                             color: Colors.grey, width: 0.5),
                                         color: classRoomFilterStatus!
-                                            ? MyColors.primaryColor
+                                            ? MyColors.blueMagic
                                             : AdaptiveTheme.of(context)
                                                     .mode
                                                     .isDark
@@ -745,128 +758,121 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                         ],
                       ),
                     ),
-                    if (classRoomFilterStatus!)
-                      Column(
-                        children: [
-                          successState.classrooms.isEmpty
-                              ? const EmptyPage(
-                                  description: 'No classrooms found.')
-                              : Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 15, bottom: 100),
-                                  child: ListView.builder(
-                                    itemCount: successState.classrooms.length,
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return AnimationConfiguration
-                                          .staggeredList(
-                                        position: index,
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        child: SlideAnimation(
-                                          verticalOffset: 50.0,
-                                          child: FadeInAnimation(
-                                            child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 15,
-                                                  right: 15,
-                                                  bottom: 8,
-                                                ),
-                                                child: ClassRoomListPage(
-                                                  classId: successState
-                                                      .classrooms[index]
-                                                      .classId,
-                                                  classRoom: successState
-                                                      .classrooms[index]
-                                                      .classRoom,
-                                                  onClassDelete:
-                                                      (classRoomId, classRoom) {
-                                                    coachingManagerBloc.add(
-                                                        OnClickDeleteActionEvent(
-                                                            type: 'CLASS',
-                                                            description:
-                                                                "Are you sure you want to delete this classroom: $classRoom ?",
-                                                            value: classRoom,
-                                                            id: classRoomId));
-                                                  },
-                                                )),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                        ],
-                      ),
-                    if (batchFilterStatus!)
-                      Column(
-                        children: [
-                          successState.batchTimeList.isEmpty
-                              ? const EmptyPage(description: 'No batch found.')
-                              : Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 15, bottom: 100),
-                                  child: ListView.builder(
-                                    itemCount:
-                                        successState.batchTimeList.length,
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return AnimationConfiguration
-                                          .staggeredList(
-                                        position: index,
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        child: SlideAnimation(
-                                          verticalOffset: 50.0,
-                                          child: FadeInAnimation(
-                                            child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 15,
-                                                  right: 15,
-                                                  bottom: 8,
-                                                ),
-                                                child: BatchListPage(
-                                                  batchId: successState
-                                                      .batchTimeList[index]
-                                                      .batchId,
-                                                  batch: successState
-                                                      .batchTimeList[index]
-                                                      .batchTime,
-                                                  onBatchDelete:
-                                                      (batchId, batch) {
-                                                    coachingManagerBloc.add(
-                                                        OnClickDeleteActionEvent(
-                                                            type: 'BATCH',
-                                                            description:
-                                                                "Are you sure you want to delete this batch: $batch ?",
-                                                            value: batch,
-                                                            id: batchId));
-                                                  },
-                                                )),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                        ],
-                      ),
                     if (subjectFilterStatus!)
                       Column(
                         children: [
-                          successState.subjectList.isEmpty
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: TextFormField(
+                                  controller: _subjectSearchController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(15),
+                                    filled: true,
+                                    fillColor: AdaptiveTheme.of(context)
+                                            .mode
+                                            .isDark
+                                        ? const Color.fromARGB(255, 67, 67, 67)
+                                        : const Color.fromARGB(
+                                            255, 252, 254, 255),
+                                    hintText: "Search Subject & Activity ",
+                                    hintStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
+                                    prefixIcon: Icon(
+                                      IconlyBroken.search,
+                                      color:
+                                          AdaptiveTheme.of(context).mode.isDark
+                                              ? Colors.white
+                                              : Colors.black,
+                                      size: 28,
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          // PermissionPage.isLoading = true;
+
+                                          _subjectSearchController.clear();
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        });
+                                      },
+                                      child: const Icon(
+                                        IconlyBroken.close_square,
+                                        size: 28,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0.8,
+                                          color: Color.fromARGB(255, 193, 193,
+                                              193)), //<-- SEE HERE
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8,
+                                          color: Color.fromARGB(
+                                              255, 193, 193, 193)),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8, color: Colors.red),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8, color: Colors.red),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          successState.subjectList
+                                  .where((subject) =>
+                                      _subjectSearchController.text.isEmpty ||
+                                      subject.subjectName
+                                          .toLowerCase()
+                                          .contains(_subjectSearchController
+                                              .text
+                                              .toLowerCase()))
+                                  .isEmpty
                               ? const EmptyPage(
                                   description: 'No subject found.')
                               : Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 15, bottom: 100),
+                                      top: 10, bottom: 100),
                                   child: ListView.builder(
                                     itemCount: successState.subjectList.length,
                                     shrinkWrap: true,
                                     physics: const BouncingScrollPhysics(),
                                     itemBuilder: (context, index) {
+                                      if (_subjectSearchController
+                                              .text.isNotEmpty &&
+                                          !(successState
+                                              .subjectList[index].subjectName
+                                              .toLowerCase()
+                                              .contains(_subjectSearchController
+                                                  .text
+                                                  .toLowerCase()))) {
+                                        return const SizedBox
+                                            .shrink(); // Hide the item if not found
+                                      }
                                       return AnimationConfiguration
                                           .staggeredList(
                                         position: index,
@@ -907,6 +913,313 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                                 ),
                         ],
                       ),
+                    if (batchFilterStatus!)
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: TextFormField(
+                                  controller: _batchSearchController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(15),
+                                    filled: true,
+                                    fillColor: AdaptiveTheme.of(context)
+                                            .mode
+                                            .isDark
+                                        ? const Color.fromARGB(255, 67, 67, 67)
+                                        : const Color.fromARGB(
+                                            255, 252, 254, 255),
+                                    hintText: "Search Batch ",
+                                    hintStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
+                                    prefixIcon: Icon(
+                                      IconlyBroken.search,
+                                      color:
+                                          AdaptiveTheme.of(context).mode.isDark
+                                              ? Colors.white
+                                              : Colors.black,
+                                      size: 28,
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          // PermissionPage.isLoading = true;
+
+                                          _batchSearchController.clear();
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        });
+                                      },
+                                      child: const Icon(
+                                        IconlyBroken.close_square,
+                                        size: 28,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0.8,
+                                          color: Color.fromARGB(255, 193, 193,
+                                              193)), //<-- SEE HERE
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8,
+                                          color: Color.fromARGB(
+                                              255, 193, 193, 193)),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8, color: Colors.red),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8, color: Colors.red),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          successState.batchTimeList
+                                  .where((batch) =>
+                                      _batchSearchController.text.isEmpty ||
+                                      batch.batchTime.toLowerCase().contains(
+                                          _batchSearchController.text
+                                              .toLowerCase()))
+                                  .isEmpty
+                              ? const EmptyPage(description: 'No batch found.')
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15, bottom: 100),
+                                  child: ListView.builder(
+                                    itemCount:
+                                        successState.batchTimeList.length,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      if (_batchSearchController
+                                              .text.isNotEmpty &&
+                                          !(successState
+                                              .batchTimeList[index].batchTime
+                                              .toLowerCase()
+                                              .contains(_batchSearchController
+                                                  .text
+                                                  .toLowerCase()))) {
+                                        return const SizedBox
+                                            .shrink(); // Hide the item if not found
+                                      }
+                                      return AnimationConfiguration
+                                          .staggeredList(
+                                        position: index,
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        child: SlideAnimation(
+                                          verticalOffset: 50.0,
+                                          child: FadeInAnimation(
+                                            child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 15,
+                                                  right: 15,
+                                                  bottom: 8,
+                                                ),
+                                                child: BatchListPage(
+                                                  batchId: successState
+                                                      .batchTimeList[index]
+                                                      .batchId,
+                                                  batch: successState
+                                                      .batchTimeList[index]
+                                                      .batchTime,
+                                                  onBatchDelete:
+                                                      (batchId, batch) {
+                                                    coachingManagerBloc.add(
+                                                        OnClickDeleteActionEvent(
+                                                            type: 'BATCH',
+                                                            description:
+                                                                "Are you sure you want to delete this batch: $batch ?",
+                                                            value: batch,
+                                                            id: batchId));
+                                                  },
+                                                )),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                        ],
+                      ),
+                    if (classRoomFilterStatus!)
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: TextFormField(
+                                  controller: _classSubjectController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(15),
+                                    filled: true,
+                                    fillColor: AdaptiveTheme.of(context)
+                                            .mode
+                                            .isDark
+                                        ? const Color.fromARGB(255, 67, 67, 67)
+                                        : const Color.fromARGB(
+                                            255, 252, 254, 255),
+                                    hintText: "Search Classroom ",
+                                    hintStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
+                                    prefixIcon: Icon(
+                                      IconlyBroken.search,
+                                      color:
+                                          AdaptiveTheme.of(context).mode.isDark
+                                              ? Colors.white
+                                              : Colors.black,
+                                      size: 28,
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          // PermissionPage.isLoading = true;
+
+                                          _classSubjectController.clear();
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        });
+                                      },
+                                      child: const Icon(
+                                        IconlyBroken.close_square,
+                                        size: 28,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0.8,
+                                          color: Color.fromARGB(255, 193, 193,
+                                              193)), //<-- SEE HERE
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8,
+                                          color: Color.fromARGB(
+                                              255, 193, 193, 193)),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8, color: Colors.red),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      //<-- SEE HERE
+                                      borderSide: const BorderSide(
+                                          width: 0.8, color: Colors.red),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          successState.classrooms
+                                  .where((classroom) =>
+                                      _classSubjectController.text.isEmpty ||
+                                      classroom.classRoom
+                                          .toLowerCase()
+                                          .contains(_classSubjectController.text
+                                              .toLowerCase()))
+                                  .isEmpty
+                              ? const EmptyPage(
+                                  description: 'No classrooms found.')
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15, bottom: 100),
+                                  child: ListView.builder(
+                                    itemCount: successState.classrooms.length,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      if (_classSubjectController
+                                              .text.isNotEmpty &&
+                                          !(successState
+                                              .classrooms[index].classRoom
+                                              .toLowerCase()
+                                              .contains(_classSubjectController
+                                                  .text
+                                                  .toLowerCase()))) {
+                                        return const SizedBox
+                                            .shrink(); // Hide the item if not found
+                                      }
+                                      return AnimationConfiguration
+                                          .staggeredList(
+                                        position: index,
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        child: SlideAnimation(
+                                          verticalOffset: 50.0,
+                                          child: FadeInAnimation(
+                                            child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 15,
+                                                  right: 15,
+                                                  bottom: 8,
+                                                ),
+                                                child: ClassRoomListPage(
+                                                  classId: successState
+                                                      .classrooms[index]
+                                                      .classId,
+                                                  classRoom: successState
+                                                      .classrooms[index]
+                                                      .classRoom,
+                                                  onClassDelete:
+                                                      (classRoomId, classRoom) {
+                                                    coachingManagerBloc.add(
+                                                        OnClickDeleteActionEvent(
+                                                            type: 'CLASS',
+                                                            description:
+                                                                "Are you sure you want to delete this classroom: $classRoom ?",
+                                                            value: classRoom,
+                                                            id: classRoomId));
+                                                  },
+                                                )),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -922,6 +1235,10 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                       } else if (batchFilterStatus!) {
                         Navigator.of(context).push(
                           showPicker(
+                            backgroundColor:
+                                AdaptiveTheme.of(context).mode.isDark
+                                    ? const Color.fromARGB(255, 56, 56, 56)
+                                    : Colors.white,
                             okText: "Add Batch",
                             context: context,
                             value: _batchTime,
@@ -945,7 +1262,7 @@ class _TrainingShedulePageState extends State<TrainingShedulePage> {
                     ),
                     label: Text(
                       subjectFilterStatus!
-                          ? 'Subject'
+                          ? 'Subject & Acivity'
                           : batchFilterStatus!
                               ? 'Batch'
                               : 'Classroom',

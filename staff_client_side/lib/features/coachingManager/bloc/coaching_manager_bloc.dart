@@ -6,6 +6,7 @@ import 'package:staff_client_side/features/coachingManager/model/batchListModel.
 import 'package:staff_client_side/features/coachingManager/model/classRoomModel.dart';
 import 'package:staff_client_side/features/coachingManager/model/staffListModel.dart';
 import 'package:staff_client_side/features/coachingManager/model/subjectListModel.dart';
+import 'package:staff_client_side/features/coachingManager/model/timeTableModel.dart';
 import 'package:staff_client_side/features/coachingManager/repo/managerRepo.dart';
 
 part 'coaching_manager_event.dart';
@@ -31,6 +32,8 @@ class CoachingManagerBloc
     on<InsertClassRoomEvent>(insertClassRoomEvent);
     on<OnClickDeleteActionEvent>(onClickDeleteActionEvent);
     on<DeleteEventActionEvent>(deleteEventActionEvent);
+    on<CreateTimeTableEvent>(createTimeTableEvent);
+    on<TimeTableFetchState>(timeTableFetchState);
   }
 
   FutureOr<void> coachingInitialEvent(
@@ -135,6 +138,7 @@ class CoachingManagerBloc
     final bool success = await ManagerRepo.insertClassShedule(
         staffId: event.staffId,
         subjectId: event.subjectId,
+        day: event.day,
         batchId: event.batchId,
         classId: event.classRoomId);
 
@@ -276,4 +280,25 @@ class CoachingManagerBloc
       }
     }
   }
+
+  FutureOr<void> createTimeTableEvent(
+      CreateTimeTableEvent event, Emitter<CoachingManagerState> emit) async {
+    emit(ClassSheduleLoader());
+    final List listAllStaffs = await ManagerRepo.listTimeTableStaffs();
+    final List listAllSubjects = await ManagerRepo.listTimeTableSubjects();
+    final List batchTime = await ManagerRepo.listTimeTableBatch();
+    final List classrooms = await ManagerRepo.listTimeTableClassrooms();
+    emit(CreateTimeTableState(
+        batchTimeList: batchTime,
+        subjectList: listAllSubjects,
+        classrooms: classrooms,
+        staffAllList: listAllStaffs));
+  }
+
+  FutureOr<void> timeTableFetchState(
+      TimeTableFetchState event, Emitter<CoachingManagerState> emit) async{
+        emit(CoachingLoaderState());
+        final List<TimeTableModel> timetable = await ManagerRepo.fetchTimeTable();
+       emit(TimeTableCompleteFetchSuccess(timetable: timetable));
+      }
 }

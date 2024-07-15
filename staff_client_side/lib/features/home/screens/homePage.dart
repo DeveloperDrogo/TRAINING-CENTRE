@@ -3,7 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconly/iconly.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:staff_client_side/colors/colors.dart';
 import 'package:staff_client_side/constant/sharedprefs.dart';
 import 'package:staff_client_side/features/home/bloc/home_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -405,6 +407,57 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 actions: [
+                  CircleAvatar(
+                    radius: 18,
+                    backgroundColor: AdaptiveTheme.of(context).mode.isDark
+                        ? const Color.fromARGB(255, 56, 56, 56)
+                        : Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                          width: 110,
+                          height: 110,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(100),
+                            ),
+                          ),
+                          child: ClipOval(
+                            child: SharedPrefs().imagePath != ''
+                                ? Image.network(
+                                    Server.img + SharedPrefs().imagePath,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.only(bottom: 0),
+                                    child: Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        color: const Color.fromARGB(
+                                            255, 234, 242, 255),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: const Color.fromARGB(
+                                                      255, 61, 61, 61)
+                                                  .withOpacity(0.5),
+                                              spreadRadius: 2,
+                                              blurRadius: 5,
+                                              offset: const Offset(0, 1)),
+                                        ],
+                                      ),
+                                      child: Icon(
+                                        IconlyBold.profile,
+                                        color: MyColors.primaryColor,
+                                        size: 60,
+                                      ),
+                                    ),
+                                  ),
+                          )),
+                    ),
+                  ),
                   IconButton(
                       icon: Stack(
                         children: <Widget>[
@@ -472,8 +525,8 @@ class _HomePageState extends State<HomePage> {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    if(SharedPrefs().role!='ADMIN')
-                    Padding(
+                    if (SharedPrefs().role != 'ADMIN')
+                      Padding(
                         padding: const EdgeInsets.only(left: 0, right: 0),
                         child: Container(
                           decoration: const BoxDecoration(),
@@ -559,7 +612,7 @@ class _HomePageState extends State<HomePage> {
                                                   EdgeInsets.only(right: 0),
                                               child: Icon(
                                                 Icons.apartment_rounded,
-                                                size: 30,  
+                                                size: 30,
                                               ),
                                             ),
                                     ),
@@ -569,19 +622,21 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Expanded(
                                       child: Text(
-                                    SharedPrefs().trainingCenterName.toUpperCase(),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.lato(textStyle: 
-                                    TextStyle(
-                                        color: AdaptiveTheme.of(context)
-                                                .mode
-                                                .isDark
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.bold),)
-                                  ))
+                                          SharedPrefs()
+                                              .trainingCenterName
+                                              .toUpperCase(),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                                color: AdaptiveTheme.of(context)
+                                                        .mode
+                                                        .isDark
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.bold),
+                                          )))
                                 ],
                               ),
                             ),

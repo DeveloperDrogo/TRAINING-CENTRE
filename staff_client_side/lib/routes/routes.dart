@@ -9,4 +9,5 @@ class MyRoutes{
   static String addStaff = '/addStaff';
   static String listAllStaffs = '/listAllStaffs';
   static String classShedule = '/classShedule';
+  static String timeTable ='/timetable';
 }

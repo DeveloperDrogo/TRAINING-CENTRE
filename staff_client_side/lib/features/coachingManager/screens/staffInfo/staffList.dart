@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -168,70 +169,138 @@ class _AllStaffListPageState extends State<AllStaffListPage> {
                         width: MediaQuery.of(context).size.width,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: TextFormField(
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(15),
-                              filled: true,
-                              fillColor: AdaptiveTheme.of(context).mode.isDark
-                                  ? const Color.fromARGB(255, 67, 67, 67)
-                                  : const Color.fromARGB(255, 252, 254, 255),
-                              hintText: "Search Staff ",
-                              hintStyle: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
-                              prefixIcon: Icon(
-                                IconlyBroken.search,
-                                color: AdaptiveTheme.of(context).mode.isDark
-                                    ? Colors.white
-                                    : Colors.black,
-                                size: 28,
-                              ),
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    // PermissionPage.isLoading = true;
+                          child: Stack(
+                            children: [
+                              TextFormField(
+                                controller: _searchController,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.all(15),
+                                  filled: true,
+                                  fillColor: AdaptiveTheme.of(context)
+                                          .mode
+                                          .isDark
+                                      ? const Color.fromARGB(255, 67, 67, 67)
+                                      : const Color.fromARGB(
+                                          255, 252, 254, 255),
+                                  hintText: " ",
+                                  hintStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                  prefixIcon: Icon(
+                                    IconlyBroken.search,
+                                    color: AdaptiveTheme.of(context).mode.isDark
+                                        ? Colors.white
+                                        : Colors.black,
+                                    size: 28,
+                                  ),
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        // PermissionPage.isLoading = true;
 
-                                    _searchController.clear();
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
+                                        _searchController.clear();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      });
+                                    },
+                                    child: const Icon(
+                                      Icons.cancel,
+                                      color: Color.fromARGB(255, 234, 104, 95),
+                                      size: 28,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        width: 0.8,
+                                        color: Color.fromARGB(
+                                            255, 193, 193, 193)), //<-- SEE HERE
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    //<-- SEE HERE
+                                    borderSide: const BorderSide(
+                                        width: 0.8,
+                                        color:
+                                            Color.fromARGB(255, 193, 193, 193)),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    //<-- SEE HERE
+                                    borderSide: const BorderSide(
+                                        width: 0.8, color: Colors.red),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    //<-- SEE HERE
+                                    borderSide: const BorderSide(
+                                        width: 0.8, color: Colors.red),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  setState(() {
+
                                   });
                                 },
-                                child: const Icon(
-                                  Icons.cancel,
-                                  color: Color.fromARGB(255, 234, 104, 95),
-                                  size: 28,
+                              ),
+                            if(  _searchController.text.isEmpty)
+                              Positioned.fill(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 50),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 0, top: 0),
+                                          child: Text(
+                                            'Search ',
+                                            style: GoogleFonts.lato(
+                                                textStyle: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400)),
+                                          ),
+                                        ),
+                                       
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 0, top: 0),
+                                          child: DefaultTextStyle(
+                                            
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    fontSize: 14,
+                                                    color: AdaptiveTheme.of(
+                                                                context)
+                                                            .mode
+                                                            .isDark
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w400)),
+                                            child: AnimatedTextKit(
+                                              
+                                              animatedTexts: [
+                                                RotateAnimatedText('Staff Name'),
+                                                RotateAnimatedText('Staff Id'),
+                                                RotateAnimatedText('Staff Role'),
+                                              ],
+                                              repeatForever: true,
+                                              onTap: () {
+                                                
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    width: 0.8,
-                                    color: Color.fromARGB(
-                                        255, 193, 193, 193)), //<-- SEE HERE
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                //<-- SEE HERE
-                                borderSide: const BorderSide(
-                                    width: 0.8,
-                                    color: Color.fromARGB(255, 193, 193, 193)),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                //<-- SEE HERE
-                                borderSide: const BorderSide(
-                                    width: 0.8, color: Colors.red),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                //<-- SEE HERE
-                                borderSide: const BorderSide(
-                                    width: 0.8, color: Colors.red),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            onChanged: (value) {
-                              setState(() {});
-                            },
+                            ],
                           ),
                         ),
                       ),

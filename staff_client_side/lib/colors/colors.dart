@@ -6,4 +6,5 @@ class MyColors {
   static Color lightblue = const Color.fromARGB(255, 182, 205, 247);
   static Color blueFilter = const Color.fromARGB(255, 130, 167, 235);
   static Color extraLightBlue = const Color.fromARGB(255, 209, 225, 254);
+  static Color blueMagic =  Colors.blue.shade800;
 }
